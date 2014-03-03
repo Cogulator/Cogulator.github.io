@@ -104,6 +104,50 @@ body {
     float:left;
 }
 
+.download_wrapper{
+    width:100%;
+    height:70px;
+    margin:0 auto;
+    border-bottom:solid #E7EAEC;
+    border-width:1px;
+    float:left
+}
+
+.centered{
+    width:420px;
+    height:inherit;
+    margin:0 auto;
+    padding:0px;
+    border-left:solid #E7EAEC;
+    border-right:solid #E7EAEC;
+    border-width:1px;
+    float:center;
+}
+
+.download_button{
+    margin-top:-15px;
+    margin-right:10px;
+    float:right;
+}
+
+
+
+.white{
+    width:395px;
+    padding:10px;
+    padding-left:15px;
+    margin:0 auto;
+    border-left:solid #E7EAEC;
+    border-right:solid #E7EAEC;
+    border-width:1px;
+    float:center;
+    background-color:white;
+    height:inherit;
+    font-family: 'Droid Sans', sans-serif;
+    font-size: 16px;
+    font-weight:bold;
+
+}
 
 #push {
     height:75px;

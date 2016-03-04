@@ -164,7 +164,7 @@
     
                     <span class="anchor" id="OPERATORS"></span>
                     <h1>Operators</h1>
-                    <p>Cogulator comes with twenty-one operators pre-installed, to which you can add more. Operators have three components: the operator name, an operator label, and an operator modifier. The name is the operator itself (e.g., Point for pointing a mouse or Look for looking at something on the screen). The label, which describes how the operator is being used, is typically optional (Type, Listen, and Say require a label in order to determine how long the step should take). So, if I wanted to indicate that a save button is what is being pointed to in a model, I could enter:</p>
+                    <p>Cogulator comes with twenty-one operators pre-installed, to which you can add more. Operators have four components: the operator name, an operator label, an operator modifier. The name is the operator itself (e.g., Point for pointing a mouse or Look for looking at something on the screen). The label, which describes how the operator is being used, is typically optional (Type, Listen, and Say require a label in order to determine how long the step should take). So, if I wanted to indicate that a save button is what is being pointed to in a model, I could enter:</p>
                     <blockquote><code>
                     .&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#268BD2">Point</span> to Save Button
                     </code></blockquote>        
@@ -184,6 +184,12 @@
                     <blockquote>
                     <p>hands Touch 250</p>
                     </blockquote>
+                    <p>In the operator file you can also optionally also provide an operator description and, starting with v1.3, a tag to tell Cogulator to use the words in the label to determine step time. The description should have no spaces in it (use underscores between each word). The optional tag can be either "count_label_words" or "count_label_characters".  The first will count the total number of words in the label and mulitply that number by the supplied operator time to get the total time for the step.  The princple is the same for "count_label_characters", but the number of characters in the label are used as the multiplier. Here's an example of a new operator with a description and label tag:
+                    <blockquote>
+                    <p>see Read 260 Read_a_single_word. count_label_words</p>
+                    </blockquote>
+                    
+                    </p>
                     <p>Once done, save the operators file and relaunch Cogulator. At some point in the future it will likely be possible to add new operators within Cogulator.</p>      
                     <br><br>
     
@@ -267,7 +273,7 @@
                     <h1>Working Memory Load</h1>
                     <p>One of the features we're currently working on in Cogulator is an analysis of Working Memory load. To simulate working memory load, Cogulator adds chunks to working memory each time certain operators are used. Those operators include: Store (which you can use to explicitly force a chunk into working memory), Recall, Look, Search, Perceptual_processor, Listen, or Think.  Automated working memory analysis can be disabled by click the underlined "Do" at the bottom left of the chart </p>
                     <p><center><img src="images/working-memory.png" alt="Working Memory" /></center></p>
-                    <p>Each chunk added to working memory is represented as a colored block in the Gantt chart. Over time, those memories begin to decay, until they're no longer accessible. That decay is symbolized in the chart with the use of transparency - the blocks becoming more and more translucent until they leave memory altogether. Where memory load exceeds seven chunks, the display is marked with a red triangle.</p>          
+                    <p>Each chunk added to working memory is represented as a colored block in the Gantt chart. Over time, those memories begin to decay, until they're no longer accessible. That decay is symbolized in the chart with the use of transparency - the blocks becoming more and more translucent until they leave memory altogether. The primacy and recency effects of memory are accounted for in the current algorithm.</p>          
                     <br><br>
                     
                     <span class="anchor" id="A_REPRIEVE"></span>

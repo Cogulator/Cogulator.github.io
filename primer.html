@@ -92,6 +92,7 @@
                         <li><a href="#GANTT_CHART" class="nav_menu">GANTT CHART</a> </li>
                         <li><a href="#MULTITASKING" class="nav_menu">MULTITASKING</a> </li>
                         <li><a href="#WM_LOAD" class="nav_menu">WM LOAD</a> </li>
+                        <li><a href="#WORKLOAD" class="nav_menu">WORKLOAD</a> </li>
                         <li><a href="#A_REPRIEVE" class="nav_menu">A REPRIEVE</a> </li>
                     </ul>
                 </div>
@@ -114,8 +115,8 @@
                     <span class="anchor" id="DESIGN"></span>
                     <h1>Design</h1>
                     <p>There are a number of GOMS software tools available today. Those include efforts like <a href = "http://web.eecs.umich.edu/~kieras/goms.html">GLEAN</a> (a significant influence on Cogulator) and <a href "https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=9&cad=rja&ved=0CGAQFjAI&url=http%3A%2F%2Fciteseerx.ist.psu.edu%2Fviewdoc%2Fdownload%3Fdoi%3D10.1.1.106.1374%26rep%3Drep1%26type%3Dpdf&ei=Ukn5UtLdAqPC0QHuzICYCA&usg=AFQjCNHpSWoFVltMhe_HERm-pB6MrAO6Ww&sig2=qarjUOetWFI7MUROvxSKoQ&bvm=bv.60983673,d.dmQ">APEX</a> which provide a quasi-programming language for developing models that can be embedded in real- and fast-time simulations. Other applications – <a href="http://cogtool.hcii.cs.cmu.edu/">CogTool</a> being a primary example – forgo programming in favor of graphical approaches to constructing models. Cogulator is not meant, necessarily, to compete with or replace any one of these and, depending on your goals, any one of these may be a better choice for you. What sort of goals would suggest the use of Cogulator? Primarily, building models quickly and flexibly.</p>
-                    <p>In most modeling systems adding new operators or changing default operator times requires changes to the codebase. We found that to be a major obstacle in modeling. Any time we learned something new about a domain - say, that rate at which air traffic controllers speak when issuing clearances - the proverbial hood on the modeling tool's codebase had to be opened. Cogulator, therefore, allows the user to quickly and easily add new operators; permanently change the execution time of existing operators based on domain knowledge, empirical evidence, or simple curiosity; or make a change to the execution time of a specific occurrence of an operator - all without touching the application source code.</p>
-                    <p>One of the side effects, or perhaps requirements, of allowing operator flexibility is a corresponding flexibility in the modeling language. As it happens, this also matched up well with our needs. For some projects a Keystroke Level Model (<a href="http://en.wikipedia.org/wiki/Keystroke-level_model">KLM</a>) model was adequate where others required a detailed, <a href="http://en.wikipedia.org/wiki/CPM-GOMS">CPM-GOMS</a> (Cognitive, Perceptual, Motor) or, at an even lower level, Human Information Processor (<a href="http://en.wikipedia.org/wiki/Human_processor_model">HIP</a>) model. Instead of focusing on a particular iteration of GOMS, Cogulator allows for building across a wide range of GOMS implementations including: KLM, NGOMSL (Natural GOMS Language), CPM-GOMS, CMN-GOMS (Card, Moran, &amp; Newell), or HIP. While this flexibility has obvious advantages, it also leaves it to the modeler determine what operators are appropriate for a particular model.</p>
+                    <p>In most modeling systems adding new operators or changing default operator times requires changes to the codebase. We found that to be a major obstacle in modeling. Any time we learned something new about a domain - say, the rate at which air traffic controllers speak when issuing clearances - the proverbial hood on the modeling tool's codebase had to be opened. Cogulator, therefore, allows the user to quickly and easily add new operators; permanently change the execution time of existing operators based on domain knowledge, empirical evidence, or simple curiosity; or make a change to the execution time of a specific occurrence of an operator - all without touching the application source code.</p>
+                    <p>One of the side effects, or perhaps requirements, of allowing operator flexibility is a corresponding flexibility in the modeling language. As it happens, this also matched up well with our needs. For some projects a Keystroke Level Model (<a href="http://en.wikipedia.org/wiki/Keystroke-level_model">KLM</a>) model was adequate where others required a detailed, <a href="http://en.wikipedia.org/wiki/CPM-GOMS">CPM-GOMS</a> (Cognitive, Perceptual, Motor) or, at an even lower level, Human Information Processor (<a href="http://en.wikipedia.org/wiki/Human_processor_model">HIP</a>) model. Instead of focusing on a particular iteration of GOMS, Cogulator allows for building across a wide range of GOMS implementations including: KLM, NGOMSL (Natural GOMS Language), CPM-GOMS, CMN-GOMS (Card, Moran, &amp; Newell), or HIP. While this flexibility has obvious advantages, it also leaves it to the modeler to determine what operators are appropriate for a particular model.</p>
                     <p>Aside from flexibility, Cogulator was built for speed. In general, there’s a design tradeoff to be made between the approachability of a GUI based interface and the speed of a text-based interface. In the case of Cogulator, experience with other GUI-based modeling tools as well as recursive GOMS models of building GOMS models, as it were, indicated that there is just no faster way to build models than via a text-based interface. And, we found that with a flexible syntax, we could retain much of the approachability of a GUI.</p>
                     <br><br>
                     
@@ -271,9 +272,52 @@
                     
                     <span class="anchor" id="WM_LOAD"></span>                
                     <h1>Working Memory Load</h1>
-                    <p>One of the features we're currently working on in Cogulator is an analysis of Working Memory load. To simulate working memory load, Cogulator adds chunks to working memory each time certain operators are used. Those operators include: Store (which you can use to explicitly force a chunk into working memory), Recall, Look, Search, Perceptual_processor, Listen, or Think.  Automated working memory analysis can be disabled by click the underlined "Do" at the bottom left of the chart </p>
+                    <p>One of the features we're currently working on in Cogulator is an analysis of Working Memory load. Working Memory load is thought to be a reasonable proxy for Mental Workload (Workload Curve paper). Cogulator can automatically add chunks to working memory for you, or you can choose to manually manage working memory.</p>  
+                    <p>In automated mode, Cogulator will add chunks to working memory any time certain operators are used. Those operators include: Store (which you can use to explicitly force a chunk into working memory), Recall, Look, Search, Perceptual_processor, Listen, or Think. Automated working memory analysis can be disabled by clicking the underlined "Do" at the bottom left of the chart.</p>
                     <p><center><img src="images/working-memory.png" alt="Working Memory" /></center></p>
-                    <p>Each chunk added to working memory is represented as a colored block in the Gantt chart. Over time, those memories begin to decay, until they're no longer accessible. That decay is symbolized in the chart with the use of transparency - the blocks becoming more and more translucent until they leave memory altogether. The primacy and recency effects of memory are accounted for in the current algorithm.</p>          
+                    <p>Each chunk added to working memory is represented as a colored block in the Gantt chart. Over time, those memories begin to decay, until they're no longer accessible. That decay is symbolized in the chart with the use of transparency - the blocks becoming more and more translucent until they leave memory altogether. The primacy and recency effects of memory are accounted for in the current algorithm.</p>  
+                    
+                    
+                    <p>For most folks, automated working memory modeling will be good enough to get a general sense of overall cognitive load. But, you may want to go deeper with chunk naming. To name a chunk, simply place angled brackets around it like so…</p>
+                    
+                    <blockquote>
+                    <pre>
+                    <code>
+                    .&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#268BD2">Look</span> at &lt;<span style="color:#2BA198">fred@mycompany.com</span>&gt;
+                    </code>
+                    </pre></blockquote>
+
+                    <p>This places one chunk (fred@cogulator.com) in memory.  Suppose that you are unfamiliar with both the recipient and the domain.  In the case, you could choose to place two chunks in memory…</p>
+                    
+                    <blockquote>
+                    <pre>
+                    <code>
+                    .&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#268BD2">Look</span> at &lt;<span style="color:#2BA198">fred</span>&gt; &lt;<span style="color:#2BA198">@mycompany.com</span>&gt;
+                    </code>
+                    </pre></blockquote>
+                    
+                    <p>To add a named chunk to working memory, it needs to be used in conjunction with one of the operators we mentioned earlier (Recall, Look, Search, Perceptual_processor, Listen, or Think). If the named chunk is in working memory and you pair it with one of these operators again, it’ll add activation to the existing chunk. Using a named chunk without one of these operators will let Cogulator know you want to test whether it is still in memory.  That is, whether it’s been forgotten.</p>
+
+                    <p>Take a look at the following model…</p>
+                    <blockquote>
+                    <pre>
+                    <code>
+                    .&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#268BD2">Look</span> at &lt;<span style="color:#2BA198">fred@mycompany.com</span>&gt;
+                    .&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#268BD2">Think</span> of what to say <strong>(60 <span style="color:#859900">seconds</span>)</strong>
+                    .&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#268BD2">Type</span> &lt;<span style="color:#DC312E">fred@mycompany.com</span>&gt;
+                    </code>
+                    </pre></blockquote>
+                    
+                    <p>Notice that in the Type step, “fred@company.com” is red. The email address was added to working memory with the "Look", but the red highlighting indicates that it took so long to think of what you wanted to write, the email address was forgotten. In the model, this is easily resolved by looking at the email address again right before typing your message.</p>
+                    <br><br>
+                    
+                    <span class="anchor" id="WORKLOAD"></span>                
+                    <h1>Mental Workload</h1>
+                    <p>Chunk naming also enables estimates of subjective mental workload. Any time a named chunk is referenced in a step that does not use one of the automated working memory operators (Recall, Look, Search, Perceptual_processor, Listen, or Think), we show a mental workload estimate on the chart. This is an estimate of how the user might rate their mental workload on a scale of 1 to 10. The number of dots corresponds to the workload rating.  We can see a rating of 5 in the chart below. That estimate is based on the activation of the chunk "speed to one niner zero"</p>
+                    
+                    <center><img src="images/workload_estimate.png" alt="Workload Estimate"></center>
+
+                    <p>These estimates are based on some work on a series of simple experiments I conducted (see <a href="http://hfs.sagepub.com/content/57/7/1174">the Workload Curve</a>). Keep in mind, though based in research, both forgetting and mental workload estimates are experimental features.</p>
                     <br><br>
                     
                     <span class="anchor" id="A_REPRIEVE"></span>

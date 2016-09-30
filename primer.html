@@ -177,7 +177,11 @@
                     </code></blockquote>
                     <p>where ms stands for milliseconds. You can also use "seconds" or, for audition and speech, "syllables".  A full list of operators, their definitions, and required parameters are shown in the table below.</p>
                     <p><center><img src="images/operators-times-table.png" alt="Create new model" /></center></p>
-                    <p>You may find the need for operators not included in Cogulator, in which case you can add new operators to the operators.txt file in the Documents folder of your computer. Windows users will find the operators.txt file by going to:</p>
+                    <p>If you find you need an operators not included in Cogulator, you can add one by clicking on the Operators tab and selecting "+ new operator" (first available in version 2.4). The interface that pops up will require a name (no spaces), an operator type (is this something you do with your hands, speech, audition, or with cognition?), and an operator time in milliseconds. You can include a description if you'd like. Once you've got all the information entered, just press your Enter button to add the operator to the list. You can start using your new operator immediately. </p>
+                    <p><center><img src="images/add-operator-button.png" alt="add operator button" /></center></p>
+                        
+                        
+                    <p>There a few operator options not exposed by the new operator interface. To get to those, you'll need to add the operator manually to the operators.txt file in the Documents folder of your computer. Windows users will find the operators.txt file by going to:</p>
                     <blockquote>
                     <p>C:\Users\Documents\cogulator</p>
                     </blockquote>
@@ -265,7 +269,7 @@
                     .&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#D33682">Also:</span> Point and Click <span style="color:#D33682">as</span> Hands
                     </code>
                     </pre></blockquote>
-                    <p>Strickly speaking, the "as" is only required if more the one additional thread is going to be used to model multitasking (in most cases, one will be all you need). You can think of a thread as adding a new lane to a highway. Everything that has the same label after the "as" will be in the same lane and therefore will happen serially. Operators in other threads can occur in parallel to the new thread. As with operator labels, the thread label is user-defined. </p>
+                    <p>Strickly speaking, the "as" is only required if one want to make sure that multiple methods are on this same thread. You can think of a thread as adding a new lane to a highway. Everything that has the same label after the "as" will be in the same lane and therefore will happen serially. Operators in other threads can occur in parallel to the new thread. As with operator labels, the thread label is user-defined. </p>
                     <p>Parallel execution is visualized in the Gantt chart. An example of parallel and serial execution of the same tasks is depicted in the image below. In the example, an imagined telephone operator needs to log into a workstation just as they receive their first call. In the serial example (upper panel), the call is received and then the operator logs in. These tasks happen in parallel in the lower panel. Note that new threads are randomly assigned their own color (green in this example) to distinguish them from the base thread.</p>
                     <p><center><img src="images/multitasking.png" alt="Multitasking" /></center></p>
                     <br><br>

@@ -1,0 +1,152 @@
+/*------ For Sticky Footer -----*/
+html, body {
+    height: 100%;
+}
+
+.table-container {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+.table-block {
+    display: table-row;
+    height: 1px;
+}
+
+.footer-push {
+    height: auto;
+}
+
+#footer {
+/* Placeholder footer styles */
+    text-align: center;
+    font-size:12px;
+    color: darkgrey;
+}
+
+/*------ General -----*/
+body {
+  background-color:#F8F8F8;
+}
+
+.annotation {
+    font-size:0.8em;
+    color: darkgray;
+    font-style: italic;
+}
+
+/*------ Background Colors -----*/
+.gradient_bckgrnd {
+    background: rgba(108,193,187,1); /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(gba(108,193,187,1), rgba(93,170,224,1)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgba(108,193,187,1), rgba(93,170,224,1)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgba(108,193,187,1), rgba(93,170,224,1)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgba(108,193,187,1), rgba(93,170,224,1)); /* Standard syntax */
+}
+
+.white_bckgrnd {
+    background-color:#FFF;
+}
+
+/*------ Link Formatting -----*/
+a:link{ /*styling for links must remain in this order */
+    color: #66B8C9;
+} a:visited{
+    color: #66B8C9;
+} a:hover, a:active, a:focus {
+    color: #333;
+    text-decoration: underline;
+}
+
+a.nav_menu:link,a.nav_menu:visited {
+    color:#555;
+    text-decoration:none;
+} a.nav_menu:hover, a.nav_menu:active, a.nav_menu:focus {
+    color: #66B8C9;
+    text-decoration: underline;
+    
+}
+
+a.header_nav_current_page{
+    color:#555;
+    text-decoration:none;
+    font-size: 13px;
+}
+
+.current {
+    color: #66B8C9;
+    text-decoration:none;
+}
+
+
+/*------ Formatting For Sticky Nav Window-----*/
+#nav {
+    position:fixed;
+    font-size: 1px;
+}
+
+ul{
+    list-style-type:none;
+    margin-left: 0; 
+    padding-left: 0;
+}
+
+.bulleted{ /* bulleted ul list */
+    font-size:14px;
+    font-family: 'Droid Serif', serif;
+    list-style-type:square;
+    margin: 1em;
+}
+
+li a{
+    margin-left: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-left: 1px solid #FFF;
+    border-right: 1px solid #FFF;
+    font-size:14px;
+}
+
+li.selected a{
+    border-left: 1px solid #126484;
+    border-right: 1px solid #126484;
+}
+
+
+/*------ Header -----*/
+#header {
+    height:65px;    
+    width:960px;
+    margin-left:10px;
+    float:left;
+}
+
+#header_nav {
+    height:30px;
+    padding-left:20px;
+    padding-top:35px;
+    float:left;
+}
+
+#header_nav_logo {
+    height:50px;
+    padding-top:10px;
+    float:left;
+}
+
+/*------ Go to Top -----*/
+.go-top {
+	position: fixed;
+	top: 2em;
+	right: 2em;
+	text-decoration: none;
+	color: white;
+	background-color: rgba(0, 0, 0, 0.3);
+	font-size: 12px;
+	padding: 1em;
+	display: none;
+}
+
+
+

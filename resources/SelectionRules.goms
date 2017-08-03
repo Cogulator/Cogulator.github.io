@@ -1,0 +1,1 @@
+CreateState theLights areOffIf theLights areOff.Hands to light switch.Turn on light switch.SetState theLights areOnEndIfIf theLights areOn.Say I see youEndIf

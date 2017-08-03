@@ -1,0 +1,1 @@
+CreateState theLights areOffIf theLights areOn.Goto Goal GreetingEndIfGoal Turn Lights On.hands to switch.Turn lights on.SetState theLights areOnGoal Greeting.Say I see you

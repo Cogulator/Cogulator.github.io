@@ -161,12 +161,15 @@
                             <li><a href="#SAVING_MODELS" class="nav_menu">SAVING</a> </li>
                             <li><a href="#MODEL_STATUS" class="nav_menu">STATUS</a> </li>
                             <li><a href="#MANAGEMENT" class="nav_menu">MANAGEMENT</a> </li>
+							<li><a href="#MAGIC_MODELS" class="nav_menu">MAGIC MODELS</a> </li>
                             <li><a href="#OPERATORS_CHI" class="nav_menu">OPERATORS CHI</a> </li>
+							<li><a href="#METHODS_CHI" class="nav_menu">METHODS CHI</a> </li>
                             <li><a href="#ERRORS_CHI" class="nav_menu">ERRORS CHI</a> </li>
                             <li><a href="#GANTT_CHART" class="nav_menu">GANTT CHART</a> </li>
                             <li><a href="#MULTITASKING" class="nav_menu">MULTITASK</a> </li>
                             <li><a href="#WM_LOAD" class="nav_menu">WM LOAD</a> </li>
                             <li><a href="#WORKLOAD" class="nav_menu">WORKLOAD</a> </li>
+							<li><a href="#SELECTION_RULES" class="nav_menu">SELECTION RULES</a> </li>
                             <li><a href="#A_REPRIEVE" class="nav_menu">A REPRIEVE</a> </li>
                         </ul>
                     </div>
@@ -181,8 +184,8 @@
                     <div id="content">
                         <span class="anchor" id="PREFACE"></span>
                         <h3>Preface</h3>
-                        <p>Cogulator is a simple human performance modeling tool for estimating task times, working memory load, and mental workload. It's designed to be approachable for new users and quick for experienced ones. In short, we have tried to create a tightly focused application for building GOMS models by applying basic human factors to a basic human factors tool.</p>
-                        <br
+                        <p>Cogulator is a simple human performance modeling tool for estimating task times, working memory load, and mental workload. It's designed to be approachable for new users and quick for experienced ones. In short, we have tried to create a tightly focused application for building GOMS models by applying basic human factors to a basic human factors tool. If you're not familiar with human performance models generally, or GOMS specifically, the <a href="#MAGIC_MODELS">magic models</a> feature is probably a good place to start <a href ="https://www.youtube.com/watch?v=8hwXN5RI710">(video)</a>, as it'll automatically build models for you.</p>
+                        <br>
 
                         <span class="anchor" id="DESIGN"></span>
                         <h3>Design</h3>
@@ -235,7 +238,7 @@
 
                         <span class="anchor" id="OPERATORS"></span>
                         <h3>Operators</h3>
-                        <p>Cogulator comes with twenty-one operators pre-installed, to which you can add more. Operators have three components: the operator name, an operator label, an operator modifier. The name is the operator itself (e.g., Point for pointing a mouse or Look for looking at something on the screen). The label, which describes how the operator is being used, is typically optional (Type, Listen, and Say require a label in order to determine how long the step should take). So, if I wanted to indicate that a save button is what is being pointed to in a model, I could enter:</p>
+                        <p>Cogulator comes with twenty-nine operators pre-installed, to which you can add more. Operators have three components: the operator name, an operator label, an operator modifier. The name is the operator itself (e.g., Point for pointing a mouse or Look for looking at something on the screen). The label, which describes how the operator is being used, is typically optional (Type, Listen, and Say require a label in order to determine how long the step should take). So, if I wanted to indicate that a save button is what is being pointed to in a model, I could enter:</p>
                         <blockquote><code>
                         . <span style="color:#268BD2">Point</span> to Save Button
                         </code></blockquote>        
@@ -295,13 +298,27 @@
                         <p>It's often nice to be able to quickly open other models to borrow commonly used methods. As such, Cogulator takes a slightly different approach to file management. Rather than the traditional File &gt; Open process, all existing models are listed along the left side of the interface (a la <a href="http://brackets.io/">Brackets</a>) for easy access to other models. The currently open model is noted with a small arrow indicator. When you first install Cogulator, a default set of models will be included in the Examples collection.</p>
                         <p>To open a model, find it in the list and click it. Models can be marked for deletion by hovering over the model name and then clicking the “x” that appears to the far left. At this point the model has not actually been deleted and you can undo this action by hovering over the name again and click the “u” button (located where the “x” was). Any models marked for deletion will be moved to the trash when the application is closed.</p>
                         <p><center><img src="images/existing-models.png"  alt="Existing models" class ="u-max-full-width"/></center></p>
+					
+					    <span class="anchor" id="MAGIC_MODELS"></span>              
+                        <h3>Magic Models</h3>
+                        <p>Most interface designers don't have any real experience with GOMS. Even if you have some experience, you might not be entirely confident on how string operators together to get a reasonable task model. The Magic Models feature is our first attempt to address this problem, making it possible to build a model in Cogulator without knowing an operator from a selection rule. With magic models, you demonstrate to Cogulator how a task is completed on a desktop/laptop computer or touchscreen device (e.g., iPhone). Cogulator then automatically generates the GOMS for you.</p>
+						<p>To get started with magic models, press the <img src="images/magic_wand.png"  alt="Magic Wand Icon"/> in the menu near the top of the interface. That'll bring up the magic models window. You can switch between desktop and touchscreen phone interfaces with the button at the bottom of the window. In the desktop, you can click on the grid to demonstrate point and click, drag the bar on the right side to demonstrate scrolling, or type to demonstrate, well, typing. Each mouse action is marked and labeled on the grid. You'll see the automatically generate code in the preview window next to the desktop. </p>
+						<p>With the touchscreen phone option, you can demonstrate touching the screen, tapping a series of things on the screen (as when typing using the touch keyboard), swiping up or down (click the grid and drag it for swipe), pressing the home button, and speech rec.  For speech rec, press and hold the home button. After about a second, a blue window will pop up and guide you through demonstrating the rest of the action. That will include typing in the speech rec command as well as any response from the phone (e.g., "Call John". "OK, dialing John").  </p> 
+                        <p><center><img src="images/magic_models.png"  alt="magic models" class ="u-max-full-width"/></center></p>
 
                         <span class="anchor" id="OPERATORS_CHI"></span>                
                         <h3>Operators Interface</h3>
-                        <p>Even those familiar with GOMS may have a difficult time remembering all the operators available and their specific formatting requirements. In order to help, we’ve provided an Operators sidebar in the tab menu on the left side of the interface. Influenced by Bret Victor’s <a href="http://worrydream.com/LearnableProgramming/">“dump the parts bucket on the floor”</a> strategy, the Operators sidebar lists all the operators, grouped by cognitive, perceptual, and motor resources. Hovering over an operator in the sidebar will temporarily insert it into the text editor at the cursor location. If the operator is not clicked, removing the cursor from the operator will remove the inserted text from the editor. Otherwise it will remain.</p>
+                        <p>Even those familiar with GOMS may have a difficult time remembering all the operators available and their specific formatting requirements. In order to help, we’ve provided an Operators sidebar in the tab menu on the left side of the interface. Influenced by Bret Victor’s <a href="http://worrydream.com/LearnableProgramming/">“dump the parts bucket on the floor”</a> strategy, the Operators (O's) sidebar lists all the operators, grouped by cognitive, perceptual, and motor resources. Hovering over an operator in the sidebar will temporarily insert it into the text editor at the cursor location. If the operator is not clicked, removing the cursor from the operator will remove the inserted text from the editor. Otherwise it will remain.</p>
                         <p><center><img src="images/insert-operator.png"  alt="Insert Operator" class ="u-max-full-width"/></center></p>
                         <br>
 
+					    <span class="anchor" id="METHODS_CHI"></span>                
+                        <h3>Methods Interface</h3>
+                        <p>The Methods Interface (M's in the tab bar) works just like the Operators interface.  However, rather than inserting a single operator, an entire method is inserted. The Methods Interface comes with several common methods like point and click preinstalled.  You can add custom methods by highlighting the method you'd like to save and then pressing the "+ method" button, as shown in the image below. </p>
+                        <p><center><img src="images/add_method.png"  alt="Add Method" class ="u-max-full-width"/></center></p>
+						<p>Preinstalled and custom methods are saved to your computer's document directory inside the cogulator/methods folder.</p>
+                        <br>
+					
                         <span class="anchor" id="ERRORS_CHI"></span>
                         <h3>Errors & Tips Interface</h3>
                         <p>Inevitably you’ll make some errors as you begin working with the CMN-GOMS syntax. Cogulator has some initial, rudimentary error color-coding in place to help you along the way. When an error is detected, the text containing the error is colored red. In the example below, the operator has been misspelled and cannot be interpreted. </p>  
@@ -333,7 +350,7 @@
                         . <span style="color:#D33682">Also:</span> Point and Click
                         </code></blockquote>
                         <p>Adding "as hands" to the end of the "Also:" line would ensure that multiple methods are on this same thread. You can think of a thread as adding a new lane to a highway. Everything that has the same label after the "as" will be in the same lane and therefore will happen serially. Operators in other threads can occur in parallel to the new thread. As with operator labels, the thread label is user-defined. </p>
-                        <p>Parallel execution is visualized in the Gantt chart. An example of parallel and serial execution of the same tasks is depicted in the image below. In the example, an imagined telephone operator needs to log into a workstation just as they receive their first call. In the serial example (upper panel), the call is received and then the operator logs in. These tasks happen in parallel in the lower panel. Note that new threads are randomly assigned their own color (green in this example) to distinguish them from the base thread.</p>
+                        <p>Parallel execution is visualized in the Gantt chart. An example of parallel and serial execution of the same tasks is depicted in the image below. In the example, an imagined telephone operator needs to log into a workstation just as they receive their first call. In the serial example (upper panel), the call is received and then the operator logs in. These tasks happen in parallel in the lower panel. Note that new threads are randomly assigned their own color (orange in this example) to distinguish them from the base thread.</p>
                         <p><center><img src="images/multitasking.png" alt="Multitasking" class ="u-max-full-width"/></center></p>
                         <br>
 
@@ -381,7 +398,68 @@
 
                         <p>These estimates are based on some work on a series of simple experiments I conducted (see <a href="http://hfs.sagepub.com/content/57/7/1174">the Workload Curve</a>). Keep in mind, though based in research, both forgetting and mental workload estimates are experimental features.</p>
                         <br>
+					
+					    <span class="anchor" id="SELECTION_RULES"></span>                
+                        <h3>Selection Rules</h3>
+                        <p>Selection Rules are If/Then statements commonly used in GOMS. Many people won't ever need selection rules, but for those who do, it's a handy feature (tip o' the hat to the folks at NC State who built this feature). To use selection rules, you'll need: </p>
+					 	<blockquote>
+							<code>
+							<span style="color:#D33682">CreateState</span><br>
+							<span style="color:#D33682">SetState</span><br>
+							<span style="color:#D33682">If</span><br>
+							<span style="color:#D33682">EndIf</span><br>
+							<span style="color:#D33682">Goto</span><br>
+							</code>
+						</blockquote>
+						<p>You'll always start with CreateState, which allows you to name an object and give that object a state. For example:</p>
+						<blockquote>
+							<code>
+							<span style="color:#D33682">CreateState</span> theLights areOff <br>
+							</code>
+						</blockquote>
+						<p>In this case, my object is "theLights" and the state I've assigned is "areOff". The object and state can be anything you want them to be, so long as each are one word without spaces.</p>
+						<p> Once I have a state, I can use it in a selection rule like so:</p>
+						<blockquote>
+							<code>
+							<span style="color:#D33682">CreateState</span> theLights areOff <br>
+							<span style="color:#D33682">If</span> theLights areOff <br>
+							. <span style="color:#268BD2">Hands</span> to the light switch <br>
+							. <span style="color:#268BD2">Turn</span> the light switch on <br>
+							<span style="color:#D33682">EndIf</span><br>
+							</code>
+						</blockquote>
+						<p>Basically, if the lights are off, then do everything between the If and EndIf. Once I've modeled the user turning the lights on, I likely want to set the state to reflect that, which I can do with SetState:</p>
+						<blockquote>
+							<code>
+							<span style="color:#D33682">CreateState</span> theLights areOff <br>
+							<span style="color:#D33682">If</span> theLights areOff <br>
+							. <span style="color:#268BD2">Hands</span> to the light switch <br>
+							. <span style="color:#268BD2">Turn</span> the light switch on <br>
+							. <strong><span style="color:#D33682">SetState</span> theLights areOn </strong><br>
+							<span style="color:#D33682">EndIf</span><br>
+							</code>
+						</blockquote>
+					
+						<p>We also have a Goto option. Goto does just what you think it would: it tells Cogulator to skip directly to a specific goal in the model. Here's an example:</p>
+						<blockquote>
+							<code>
+							<span style="color:#D33682">CreateState</span> theLights areOn <br>
+							<span style="color:#D33682">If</span> theLights areOn <br>
+							. <span style="color:#D33682">Goto Goal</span> Greeting <br>
+							<span style="color:#D33682">EndIf</span><br>
+							<br>
+							<span style="color:#D33682">Goal</span> Turn the Lights On <br>
+							. <span style="color:#268BD2">Hands</span> to the light switch <br>
+							. <span style="color:#268BD2">Turn</span> the light switch on <br>
+							. <span style="color:#D33682">SetState</span> theLights areOn <br>
+							<br>
+							<span style="color:#D33682">Goal</span> Greeting <br>
+							. <span style="color:#268BD2">Say</span> I see you <br>
+							</code>
+						</blockquote>
 
+						<p>In this model, we start by testing to see if "theLights" "areOn".  Because they are, we jump directly to the goal Greeting (i.e., Goto Goal Greeting).  </p>
+					
                         <span class="anchor" id="A_REPRIEVE"></span>
                         <h3>A Reprieve</h3>
                         <p>That covers Cogulator at a high level. If this all seems a bit complex, remember that you can model at a lot of different levels of fidelity in Cogulator. Starting with some of the simpler modeling methods like KLM is a great way to get comfortable with GOMS and Cogulator. Take advantage of the example models that come installed with Cogulator.  You may also find the <a href="screencast.html">primer video</a> helpful. It's brief and just covers the basics.</p>

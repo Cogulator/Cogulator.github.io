@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Cogulator</title>
+		<link rel="stylesheet" type="text/css" href="./style/quill.core.css">
+		<link rel="stylesheet" type="text/css" href="./style/main.css">
+		<link rel="stylesheet" type="text/css" href="./style/sidebar.css">
+		<link rel="stylesheet" type="text/css" href="./style/buttons.css">
+		<link rel="stylesheet" type="text/css" href="./style/newfilechi.css">
+		<link rel="stylesheet" type="text/css" href="./style/insertion_chi.css">
+		<link rel="stylesheet" type="text/css" href="./style/errors_tips.css">
+		<link rel="stylesheet" type="text/css" href="./style/magic_models.css">
+		<link rel="stylesheet" type="text/css" href="./style/help_screen.css">
+        <link rel="stylesheet" type="text/css" href="./style/windows_menubar.css">
+		<script   src="https://code.jquery.com/jquery-3.3.1.min.js"   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   crossorigin="anonymous"></script>
+		<script type='text/javascript' src='./libraries/quill.min.js'></script>
+		<script type='text/javascript' src='./libraries/p5.min.js'></script>
+	</head>
+	<body>
+		
+		<div id='container'>
+			<div id='not_gantt_container'>
+				<div id='not_gantt_not_magic'>
+
+					<div id='main_nav'>
+
+						<div id='nav_right_container'>
+							<div class='nav_item'>
+								<div class='stat_container right_border'>
+									<div id='stat_task_time' class ='stat_content'>12 <span id="stat_task_time_units" class='stat_units'>s</span></div>
+									<div class='stat_label'>task time</div>
+								</div>
+							</div>
+							<div class='nav_item' >
+								<div class='stat_container right_border' id='stat_wm_container'>
+									<div id='stat_wm_load' class ='stat_content'>3.3 <span id="stat_wm_units" class='stat_units'>chunks</span></div>
+									<div class='stat_label'>memory load</div>
+								</div>
+							</div>	
+							<div class='nav_item' id='stat_workload_nav_item'>
+								<div class='stat_container'>
+									<div id='stat_workload' class ='stat_content'>1 <span id="stat_workload_units" class='stat_units'>(1-10)</span></div>
+									<div class='stat_label'>max workload</div>
+								</div>
+							</div>
+
+							<div class='nav_item' id='reload_button_nav_item'>
+								<div id='reload_model_button_container' style='margin-top:15px; margin-left:15px;'>
+								</div>
+							</div>
+
+						</div>
+
+
+					</div>
+
+					<div id='gutter' class='ql-editor'></div> <!-- ql-editor is a Quill class -->
+					<div id='code'></div>
+
+				<!-- Containers for popovers that occur with various interactions -->
+					<div id='autocomplete'> </div>
+					<div id='error_message_popover'> </div>
+					<div id='fixable_tip_popover'>
+						<div class='fixable_tip_marker_static orange_background'>?</div>
+						<div id='fixable_tip_button'>fix</div>
+					</div>
+					<div id='insertion_chi_container'> 
+						<div id='insertion_options_container'> 
+							<div id='insertion_options_toggle_container'> 
+								<div id='insertion_operator_toggle' class='insertion_options_toggle_button insertion_options_toggle_selected'>Operators</div>
+							</div>
+							<div id='insertion_options_content'></div>
+						</div>
+						<div id='insertion_details_container'> </div> 
+					</div>
+				<!-- End popover containers -->
+
+					<div id='sidebar_right'>
+						<div id='magic_button_container'>
+							<div class='circle_button' id='magic_button'><img src='images/magicOff.png'></div>
+						</div>
+						<div class='edit_button_container'>
+							<div class='circle_button edit_button' id='comment_button'><img src='images/comment_toggle.png'></div>
+						</div>
+						<div class='edit_button_container'>
+							<div class='circle_button edit_button' id='indent_button'><img src='images/indent.png'></div>
+						</div>
+						<div class='edit_button_container'>
+							<div class='circle_button edit_button' id='dedent_button'><img src='images/dedent.png'></div>
+						</div>
+					</div>
+				</div> <!-- End not_gantt_not_magic -->
+				
+				<div id='not_gantt_but_is_magic'>
+					<div id='magic_header'>
+						<div id='close_magic_button_container'>
+							<div class='circle_button' id='close_magic_button'>X</div>
+						</div>
+					</div>
+					<div id='magic_content'>
+						<div id='magic_box'></div> <!-- P5 sketch -->
+					</div>
+					<div id='magic_footer'>
+						<div id='mm_selector_container'>
+							<div id='mm_desktop_chi'><img src='images/desktop_icon.png'></div>
+							<div id='mm_iphone_chi'><img src='images/iphone-icon.png'></div>
+							<div id='mm_desktop_selected' class='mm_selected_chi'><img src='images/mm_selector.png'></div>
+							<div id='mm_iphone_selected' class='mm_selected_chi'></div>
+						</div>
+					</div>
+				</div> <!-- End not_gantt but is magic -->
+				
+			</div> <!-- End not_gantt container -->
+			
+			<div id='gantt_button'>
+				<div id='gantt_button_text'>^</div>
+			</div>
+			<div id='gantt_container'>
+				<div id='gantt_chart'></div> <!-- P5 sketch -->
+			</div>
+		</div>
+		
+		<div id='help_container'>
+			<div id='help_close_button_container'>
+				<div class='circle_button' id='help_close_button'>X</div>
+			</div>
+			<div id='help_image'></div>
+			<div id='help_nav'>NAVIGATE</div>
+		</div>
+				
+		<script type='text/javascript' src='./utilities/Globals.js'></script>
+		<script type='text/javascript' src='./objects/Components.js'></script> 
+		<script type='text/javascript' src='./objects/Operator.js'></script>
+		<script type='text/javascript' src='./objects/Step.js'></script>
+		<script type='text/javascript' src='./objects/Chunk.js'></script>
+		<script type='text/javascript' src='./objects/Point.js'></script>
+		<script type='text/javascript' src='./utilities/StringUtils.js'></script>
+		<script type='text/javascript' src='./interface/QuillEditor.js'></script>
+		<script type='text/javascript' src='./managers/CustomEventsManager.js'></script>
+		<script type='text/javascript' src='./managers/QuillManager.js'></script>
+		<script type='text/javascript' src='./managers/QutterManager.js'></script>
+		<script type='text/javascript' src='./managers/AnnotationManager.js'></script>
+		<script type='text/javascript' src='./objects/TimeObject.js'></script>
+		<script type='text/javascript' src='./cognition/LineParser.js'></script>
+		<script type='text/javascript' src='./managers/ErrorManager.js'></script>
+		<script type='text/javascript' src='./managers/TipManager.js'></script>
+		<script type='text/javascript' src='./cognition/GomsProcessor.js'></script>
+		<script type='text/javascript' src='./cognition/Memory.js'></script>
+		<script type='text/javascript' src='./cognition/SubjectiveWorkload.js'></script>
+		<script type='text/javascript' src='./cognition/FittsLaw.js'></script>
+		<script type='text/javascript' src='./managers/OperatorsManager.js'></script>
+		<script type='text/javascript' src='./managers/SolarizeManager.js'></script>
+		<script type='text/javascript' src='./managers/AutocompleteManager.js'></script>
+		<script type='text/javascript' src='./managers/StatsDisplayManager.js'></script>
+		<script type='text/javascript' src='./interface/GanttChart.js'></script>
+		<script type='text/javascript' src='./interface/PopOver.js'></script>
+		<script type='text/javascript' src='./interface/PopOverFix.js'></script>
+		<script type='text/javascript' src='./managers/ReloadManager.js'></script>
+		<script type='text/javascript' src='./interface/InsertionCHI.js'></script>
+		<script type='text/javascript' src='./interface/MagicModels.js'></script>
+		<script type='text/javascript' src='./utilities/Example.js'></script>
+	</body>
+</html>
+ 

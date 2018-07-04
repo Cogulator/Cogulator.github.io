@@ -1,0 +1,294 @@
+
+:root {
+	--main-bg-color: #F8F8F8;
+	--sidebar-left-bg-color: #EFEFEF;
+	--sidebar-right-bg-color: #EFEFEF;
+	--model-select-bg-color: #4CBD99;
+	--model-button-select-txt-color: white;
+	--model-button-txt-color: black;
+	--directory-txt-color: lightgray;
+	--delete-button-color: red;
+	--auto-complete-bg-color: #4A4A4A;
+	--stats-color: #555;
+	--stats-label-color: #777;
+	--border-color: #DFDFDF;
+	--gantt-stripe-color: #F0F0F0;
+	--purple-color: #85587A;
+}
+
+
+@font-face {
+  font-family: 'Lato';
+  src: url('./fonts/Lato-Regular.ttf')  format('truetype');
+}
+
+@font-face {
+  font-family: 'Lato-Italic';
+  src: url('./fonts/Lato-Italic.ttf')  format('truetype');
+}
+
+@font-face {
+  font-family: 'Lato-Bold';
+  src: url('./fonts/Lato-Bold.ttf')  format('truetype');
+}
+
+@font-face {
+  font-family: 'Lato-Light';
+  src: url('./fonts/Lato-Light.ttf')  format('truetype');
+}
+
+@font-face {
+  font-family: 'Cogulato';
+  src: url('./fonts/cogulato-webfont.woff2')  format('woff2');
+}
+
+.body, html {
+	background-color: var(--main-bg-color);
+	overflow:hidden;
+}
+
+#electron-titlebar {
+	-webkit-app-region: drag;
+}
+
+
+#container {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	height:100%;
+	width:100%;
+	overflow: hidden;
+}
+
+#not_gantt_container {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width:100%;
+	overflow: hidden;
+}
+
+#not_gantt_not_magic {
+	position: relative;
+	float:left;
+	width:100%;
+	height:100%;
+}
+
+#not_gantt_but_is_magic {
+	position: relative;
+	float:left;
+	width:356px;
+	height:100%;
+	background-color: var(--sidebar-right-bg-color);
+	visibility:hidden
+}
+
+#sidebar_left {
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:192px;
+	height:100%;
+	background-color:var(--sidebar-left-bg-color);
+	overflow-y:auto;
+	overflow-x:hidden;
+}
+
+
+#main_nav {
+	position:absolute;
+	top:0px;
+	left:10px;
+	width: calc(100% - 55px);
+	height:59px;
+	border-bottom: 1px solid;
+	border-color:var(--border-color);
+}
+
+
+#nav_left_container {
+	position:relative;
+	float:left;
+	width:25px;
+	height:inherit;
+} #nav_right_container {
+	position:relative;
+	float:left;
+	width:calc(100% - 25px);
+	height:inherit;
+	margin: 0 auto;
+	text-align: center;
+} .nav_item {
+	height:inherit;
+	margin-top: -15px;
+	display:inline-block;
+}
+
+.stat_content{
+	min-width: 100px;
+	font-family: 'Lato';
+	font-size: 18px;
+} .stat_units {
+	font-family: 'Lato-Italic';
+	font-size: 13px;
+	color:var(--stats-label-color);
+} .stat_label {
+	min-width: 100px;
+	font-family: 'Lato-Italic';
+	font-size: 12px;
+	color:var(--stats-label-color);
+} .right_border {
+	border-right: 1px solid;
+	border-color:var(--border-color);
+}
+
+#gutter {
+	font-family: 'Cogulato';
+	font-size: 16px;
+	position:absolute;
+	top:60px;
+	left:10px;
+	width: 40px;
+	height:calc(100% - 60px);
+/*	background-color:var(--main-bg-color);*/
+	overflow: hidden;
+} 
+
+#code {
+	font-family: 'Cogulato';
+	font-size: 16px;
+	position:absolute;
+	top:60px;
+	left:50px;
+	width: calc(100% - 8px - 30px - 40px - 5px); /*5px for custom scroll bar width*/
+	height:calc(100% - 60px);
+	background-color:var(--main-bg-color);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: none;
+}
+ 
+::-webkit-scrollbar-thumb {
+    background: #EEE; 
+    border-radius:8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #CCC; 
+}
+
+
+
+
+.ql-editor{ /*is a class created by quill.  Just adding a property here to keep text from jumping.*/
+	overflow-y: scroll;
+}
+
+#autocomplete {
+	font-family: 'Cogulato';
+	font-size: 16px;
+	position:absolute;
+	top:50px;
+	left:50px;
+	height:19px;
+	color: var(--main-bg-color);
+	background-color:var(--auto-complete-bg-color);
+	z-index: 100;
+}
+
+#sidebar_right {
+	position:absolute;
+	top:0px;
+	right:0px;
+	width:30px;
+	height:100%;
+	background-color:var(--sidebar-right-bg-color);
+}
+
+
+
+#gantt_button {
+	position:absolute;
+	bottom:0px;
+	left: 60px; 
+	right: 0; 
+/*
+	margin-left: auto;
+	margin-right: auto;
+*/
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
+	width: 60px; /* Need a specific value to work */
+	height:20px;
+	line-height:25px;
+	text-align: center;
+	background-color:var(--main-bg-color);
+	font-family: "Lato-Bold";
+	font-size:20px;
+	cursor:default;
+	user-select: none;
+	box-shadow: 0px -2px 2px grey;
+	z-index: 100;
+}
+
+.rotate_180 {
+	transform: rotate(0deg);
+  	animation: spinTo180 0.5s forwards;
+} @keyframes spinTo180 {
+  100% {
+	  transform: rotate(180deg);
+	}
+}
+
+.rotate_0 {
+	transform: rotate(180deg);
+  	animation: spinTo0 0.5s forwards;
+} @keyframes spinTo0 {
+  	100% {
+    	transform: rotate(0deg);
+	}
+}
+
+.rotate_360 {
+	transform: rotate(0deg);
+  	animation: spinTo360 0.5s forwards;
+} @keyframes spinTo360 {
+  	100% {
+    	transform: rotate(360deg);
+	}
+}
+
+#gantt_container {
+	position:absolute;
+	left:0px;
+	bottom:-450px;
+	width:100%;
+	height:450px;
+	background-color:var(--main-bg-color);
+	box-shadow: 0px -1px 5px grey;
+}
+
+
+#gantt_chart {
+	position:relative;
+	float:left;
+	width: 100%;
+	height:100%;
+}
+
+.full_height {
+	height: 100%;
+}
+
+.partial_height {
+	height: calc(100% - 450px);
+}
+
+

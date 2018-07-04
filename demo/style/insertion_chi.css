@@ -1,0 +1,124 @@
+#insertion_chi_container {
+	position:absolute;
+	top:0px;
+	left:0px;
+	background-color: var(--purple-color);
+	height:150px;
+	width:200px;
+	box-shadow: inset 0px 10px 5px -10px #000;
+	border-bottom: 1px solid #CCC;
+	display:none;
+	z-index: 1000;
+}
+
+#insertion_options_container{
+	position:relative;
+	float:left;
+	width:calc(100% - 300px);
+	height:150px;
+	box-shadow: inset 0px 10px 5px -10px #000;
+}
+
+#insertion_options_toggle_container {
+	position:relative;
+	margin:0 auto;
+	margin-top:3px;
+	width:185px;
+	height: 25px;
+}
+
+.insertion_options_toggle_button {
+	position:relative;
+	float:left;
+	width:90px;
+	height: 23px;
+	margin-left: -1px;
+	font-family: 'Lato-Bold';
+	font-size: 14px;
+	line-height: 23px;
+	color:white;
+	text-align: center;
+	border: 1px solid #A5849D;
+	cursor:default;
+	user-select: none;
+}
+
+.insertion_options_toggle_selected {
+	background-color:var(--model-select-bg-color);
+}
+
+#insertion_options_content {
+	position:relative;
+	float:left;
+	width:100%;
+	height:calc(100% - 23px - 5px);
+	color: white;
+	font-family: 'Lato';
+	font-size: '10px';
+	overflow-y: auto;
+	overflow-x: hidden;
+	cursor:default;
+	user-select: none;
+}
+
+.insertion_options_column_two_columns {
+	position:relative;
+	float:left;
+	width:50%;
+}
+
+.insertion_options_column_four_columns {
+	position:relative;
+	float:left;
+	width:25%;
+}
+
+.insertion_column_header {
+	display: table;
+	margin: 0 auto;
+	margin-top: 3px;
+	height: 20px;
+	width:120px;
+	opacity: 0.5;
+	font-size:14px;
+}
+
+.insertion_option_button {
+	display: table;
+	margin: 0 auto;
+	height: 20px;
+	width:120px;
+}
+
+.insertion_option_method_button_model, .insertion_option_operator_button_model {
+	position:relative;
+	float:left;
+	margin-left: 5px;
+	margin-bottom: 5px;
+	font-size:14px;
+	width:95px;
+}
+
+.insertion_option_method_button_info, .insertion_option_operator_button_info {
+	position:relative;
+	float:left;
+	margin:2px;
+	width:16px;
+	height:16px;
+	line-height:16px;
+	font-size:10px;
+	text-align:center;
+	border-radius: 50%;
+	background-color:var(--model-select-bg-color);
+}
+
+#insertion_details_container{
+	position:relative;
+	float:left;
+	width:300px;
+	height:150px;
+	overflow:auto;
+	font-family: 'Cogulato';
+	background-color: var(--main-bg-color);
+	box-shadow: inset 0px 10px 5px -10px #000;
+}

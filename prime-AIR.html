@@ -114,12 +114,10 @@
             <div class="row ">
                 <div id="header_nav"></div>
                 <div id="header_nav_logo"><a href="index.html"><img src="images/Cogulator_48x48.png" alt="Cogulator Logo"></a></div>
-                <div id ="navi_menu">
-					<div id="header_nav"><a href="download.html" class="nav_menu smaller smallest">DOWNLOAD</a></div>
-					<div id="header_nav"><a href="primer.html" class="current smaller smallest">PRIMER</a></div>
-					<div id="header_nav"><a href="resources.html" class="nav_menu smaller smallest">RESOURCES</a></div>
-					<div id="header_nav"><a href="https://github.com/Cogulator/Cogulator/" class="nav_menu smaller smallest">SOURCE</a></div>
-				</div>
+                <div id="header_nav"><a href="download.html" class="nav_menu smaller smallest">DOWNLOAD</a></div>
+                <div id="header_nav"><a href="primer.html" class="current smaller smallest">PRIMER</a></div>
+                <div id="header_nav"><a href="resources.html" class="nav_menu smaller smallest">RESOURCES</a></div>
+                <div id="header_nav"><a href="https://github.com/Cogulator/Cogulator/" class="nav_menu smaller smallest">SOURCE</a></div>
                 <div class="hamburger hamburger--slider" type="button">
                     <div class="hamburger-box">
                         <div class="hamburger-inner"></div>
@@ -161,9 +159,11 @@
                             <li><a href="#INTERFACE" class="nav_menu">INTERFACE</a> </li>
                             <li><a href="#NEW_MODELS" class="nav_menu">NEW MODELS</a> </li>
                             <li><a href="#SAVING_MODELS" class="nav_menu">SAVING</a> </li>
+                            <li><a href="#MODEL_STATUS" class="nav_menu">STATUS</a> </li>
                             <li><a href="#MANAGEMENT" class="nav_menu">MANAGEMENT</a> </li>
 							<li><a href="#MAGIC_MODELS" class="nav_menu">MAGIC MODELS</a> </li>
-                            <li><a href="#O_AND_M_CHI" class="nav_menu">O's &amp; M's CHI</a> </li>
+                            <li><a href="#OPERATORS_CHI" class="nav_menu">OPERATORS CHI</a> </li>
+							<li><a href="#METHODS_CHI" class="nav_menu">METHODS CHI</a> </li>
                             <li><a href="#ERRORS_CHI" class="nav_menu">ERRORS CHI</a> </li>
                             <li><a href="#GANTT_CHART" class="nav_menu">GANTT CHART</a> </li>
                             <li><a href="#MULTITASKING" class="nav_menu">MULTITASK</a> </li>
@@ -250,8 +250,8 @@
                         </code></blockquote>
                         <p>where ms stands for milliseconds. You can also use "seconds" or, for audition and speech, "syllables".  A full list of operators, their definitions, and required parameters are shown in the table below.</p>
                         <p><center><img src="images/operators-times-table.png" alt="Create new model" class ="u-max-full-width"/></center></p>
-                        <p>If you find you need an operator not included in Cogulator, you can add one by clicking on the new button and selecting the Operators tab. The interface that pops up will require a name (no spaces), an operator type (is this something you do with your hands, speech, audition, or with cognition?), and an operator time in milliseconds. You can include a description if you'd like. Once you've got all the information entered, just press your Enter button to add the operator to the list. You can start using your new operator immediately. </p>
-                        <p><center><img src="images/add_new_operator.png" alt="add operator button" class ="u-max-full-width"/></center></p>
+                        <p>If you find you need an operator not included in Cogulator, you can add one by clicking on the Operators tab and selecting "+ new operator" (first available in version 2.4). The interface that pops up will require a name (no spaces), an operator type (is this something you do with your hands, speech, audition, or with cognition?), and an operator time in milliseconds. You can include a description if you'd like. Once you've got all the information entered, just press your Enter button to add the operator to the list. You can start using your new operator immediately. </p>
+                        <p><center><img src="images/add-operator-button.png" alt="add operator button" class ="u-max-full-width"/></center></p>
 
 
                         <p>There a few operator options not exposed by the new operator interface. To get to those, you'll need to add the operator manually to the operators.txt file in the Documents folder of your computer. Windows users will find the operators.txt file by going to:</p>
@@ -272,14 +272,14 @@
 
                         <span class="anchor" id="INTERFACE"></span>               
                         <h3>Interface</h3>
-                        <p>At its most basic, Cogulator is a GOMS text editor and, as such, the primary interface component is for text entry (see image below). In addition, there are interface elements for managing existing models, reviewing and inserting operators into a model, a Gantt chart visualization of the model, and a display that provides the estimated task time, working memory load, and workoad estimate (if available).</p>
-                        <p><center><img src="images/overview.png" alt="interface overview" class ="u-max-full-width"/></center></p>
+                        <p>At its most basic, Cogulator is a GOMS text editor and, as such, the primary interface component is for text entry (see image below). In addition, there are interface elements for managing existing models, reviewing and inserting operators into a model, a Gantt chart visualization of the model, and a display that provides the estimated task time and information on the current model state (Does it contain errors? Is it current?).</p>
+                        <p><center><img src="images/interface-overview.png" alt="interface overview" class ="u-max-full-width"/></center></p>
                         <br>
 
                         <span class="anchor" id="NEW_MODELS"></span>               
                         <h3>New Models</h3>
-                        <p>To build a new model, click the new model button. Doing so presents a dialogue box with two blank fields. Input into the collection field is optional. Collections allow you to place models into groups (discussed in more detail in the <a href="#MANAGEMENT">Management</a> section). A model name is required. The name must be unique and contain no spaces (underscores will automatically be inserted in place of spaces as you type). If you try to enter a model name that already exists, a red “x” will appear next to the name field along with a note indicating the model name is already in use. Once a unique model name is entered into the text field, you can press the "create" button, which will create the new model.</p>
-                        <p><center><img src="images/new_model_dialog.png" alt="Create new model" class ="u-max-full-width"/></center></p>      
+                        <p>To build a new model, click the new model button. Doing so presents a dialogue box with two blank fields. Input into the collection field is optional. Collections allow you to place models into groups (discussed in more detail in the <a href="#MANAGEMENT">Management</a> section). A model name is required. The name must be unique and contain no spaces (underscores will automatically be inserted in place of spaces as you type). If you try to enter a model name that already exists, a red “x” will appear next to the name field along with a note indicating the model name is already in use. Once a unique model name is entered into the text field, you can press the Enter key, which will create the new model.</p>
+                        <p><center><img src="images/create-new-model.png" alt="Create new model" class ="u-max-full-width"/></center></p>      
                         <br>       
 
                         <span class="anchor" id="SAVING_MODELS"></span>
@@ -287,31 +287,48 @@
                         <p>In Cogulator, every time the application is closed or a new model is opened, the currently open model is saved automatically. You can manually save the model at any time by pressing the save button located to the right of the new model button.</p>
                         <br>
 
+                        <span class="anchor" id="MODEL_STATUS"></span>
+                        <h3>Model Status</h3>
+                        <p>Each time a new line is added to the model (i.e., each time the enter key is pressed), the task time estimate and Gantt chart (to be described shortly) is updated. In addition, the model can be updated manually by pressing the refresh button. If the model has been changed (text added or removed), but not updated, the task time fades. If there is an error in the model, the task time will be replaced with “...”.</p>
+                        <p><center><img src="images/refresh-model.png" alt="Refresh model" class ="u-max-full-width"/></center></p>   
+                        <br>  
+
                         <span class="anchor" id="MANAGEMENT"></span>              
                         <h3>Model Management</h3>
                         <p>It's often nice to be able to quickly open other models to borrow commonly used methods. As such, Cogulator takes a slightly different approach to file management. Rather than the traditional File &gt; Open process, all existing models are listed along the left side of the interface (a la <a href="http://brackets.io/">Brackets</a>) for easy access to other models. The currently open model is noted with a small arrow indicator. When you first install Cogulator, a default set of models will be included in the Examples collection.</p>
                         <p>To open a model, find it in the list and click it. Models can be marked for deletion by hovering over the model name and then clicking the “x” that appears to the far left. At this point the model has not actually been deleted and you can undo this action by hovering over the name again and click the “u” button (located where the “x” was). Any models marked for deletion will be moved to the trash when the application is closed.</p>
-                        <p><center><img src="images/delete_a_model.png"  alt="Existing models" class ="u-max-full-width"/></center></p>
+                        <p><center><img src="images/existing-models.png"  alt="Existing models" class ="u-max-full-width"/></center></p>
 					
 					    <span class="anchor" id="MAGIC_MODELS"></span>              
                         <h3>Magic Models</h3>
                         <p>Most interface designers don't have any real experience with GOMS. Even if you have some experience, you might not be entirely confident on how string operators together to get a reasonable task model. The Magic Models feature is our first attempt to address this problem, making it possible to build a model in Cogulator without knowing an operator from a selection rule. With magic models, you demonstrate to Cogulator how a task is completed on a desktop/laptop computer or touchscreen device (e.g., iPhone). Cogulator then automatically generates the GOMS for you.</p>
 						<p>To get started with magic models, press the <img src="images/magic_wand.png"  alt="Magic Wand Icon"/> in the menu near the top of the interface. That'll bring up the magic models window. You can switch between desktop and touchscreen phone interfaces with the button at the bottom of the window. In the desktop, you can click on the grid to demonstrate point and click, drag the bar on the right side to demonstrate scrolling, or type to demonstrate, well, typing. Each mouse action is marked and labeled on the grid. You'll see the automatically generate code in the preview window next to the desktop. </p>
 						<p>With the touchscreen phone option, you can demonstrate touching the screen, tapping a series of things on the screen (as when typing using the touch keyboard), swiping up or down (click the grid and drag it for swipe), pressing the home button, and speech rec.  For speech rec, press and hold the home button. After about a second, a blue window will pop up and guide you through demonstrating the rest of the action. That will include typing in the speech rec command as well as any response from the phone (e.g., "Call John". "OK, dialing John").  </p> 
-                        <p><center><img src="images/magic_model.png"  alt="magic models" class ="u-max-full-width"/></center></p>
+                        <p><center><img src="images/magic_models.png"  alt="magic models" class ="u-max-full-width"/></center></p>
 
-                        <span class="anchor" id="O_AND_M_CHI"></span>                
-                        <h3>Operators & Methods</h3>
-                        <p>Even those familiar with GOMS may have a difficult time remembering all the operators available and their specific formatting requirements. In order to help, we’ve provided an Operators and Methods insertion tool. Influenced by Bret Victor’s <a href="http://worrydream.com/LearnableProgramming/">“dump the parts bucket on the floor”</a> strategy, the insert tool lists all available operators and methods. To access it, click on any blank line in the model. To the left of that line a <img src="images/insert_button.png"> will appear. Click on that, will bring up the insert tool.  Clicking on an operator or method in the list will insert it at the selected line.  For information about the operator or method, press the <img src="images/info_button.png"> next to the operator/method.</p>
-                        <p><center><img src="images/insert_tool.png"  alt="Insert Operator" class ="u-max-full-width"/></center></p>
+                        <span class="anchor" id="OPERATORS_CHI"></span>                
+                        <h3>Operators Interface</h3>
+                        <p>Even those familiar with GOMS may have a difficult time remembering all the operators available and their specific formatting requirements. In order to help, we’ve provided an Operators sidebar in the tab menu on the left side of the interface. Influenced by Bret Victor’s <a href="http://worrydream.com/LearnableProgramming/">“dump the parts bucket on the floor”</a> strategy, the Operators (O's) sidebar lists all the operators, grouped by cognitive, perceptual, and motor resources. Hovering over an operator in the sidebar will temporarily insert it into the text editor at the cursor location. If the operator is not clicked, removing the cursor from the operator will remove the inserted text from the editor. Otherwise it will remain.</p>
+                        <p><center><img src="images/insert-operator.png"  alt="Insert Operator" class ="u-max-full-width"/></center></p>
+                        <br>
+
+					    <span class="anchor" id="METHODS_CHI"></span>                
+                        <h3>Methods Interface</h3>
+                        <p>The Methods Interface (M's in the tab bar) works just like the Operators interface.  However, rather than inserting a single operator, an entire method is inserted. The Methods Interface comes with several common methods like point and click preinstalled.  You can add custom methods by highlighting the method you'd like to save and then pressing the "+ method" button, as shown in the image below. </p>
+                        <p><center><img src="images/add_method.png"  alt="Add Method" class ="u-max-full-width"/></center></p>
+						<p>Preinstalled and custom methods are saved to your computer's document directory inside the cogulator/methods folder.</p>
                         <br>
 					
                         <span class="anchor" id="ERRORS_CHI"></span>
                         <h3>Errors & Tips Interface</h3>
-                        <p>Inevitably you’ll make some errors as you begin working with the CMN-GOMS syntax. Cogulator has some initial, rudimentary error color-coding in place to help you along the way. When an error is detected, a <img src="images/error_indicator.png"> is placed on the error line. Hover over the <img src="images/error_indicator.png"> to display a description of the error. </p>  
-
-                        <p>In addition to error indicators, Cogulator suggests tips for improving the model.  For example, modelers often forget to use a Hands operator when the user moves their hands from the mouse to the keyboard (or vice versa). When a tip is available, <img src="images/hint_indicator.png"> is displayed next to the line.  In some cases, Cogulator can implement the tip for you.  When that option is available, a fix button will be displayed when you hover over the <img src="images/hint_indicator.png">. Clicking the fix button will implement the tip.</p>
-                        <p><center><img src="images/tip_tool.png" alt="Hints CHI" class="u-max-full-width"/></center></p>                
+                        <p>Inevitably you’ll make some errors as you begin working with the CMN-GOMS syntax. Cogulator has some initial, rudimentary error color-coding in place to help you along the way. When an error is detected, the text containing the error is colored red. In the example below, the operator has been misspelled and cannot be interpreted. </p>  
+                        <blockquote>
+                        <code>. <span style="color:#268BD2">Keystroke</span> Tab-Key (correct)<br>
+                            . <span style="color:#DC312E">Keystrke</span> Tab-Key (error)  
+                        </code>
+                        </blockquote>
+                        <p>In addition to error color-coding, Cogulator can walk you through both errors in the model and suggest hints for improving it.  For example, modelers often forget to use a Hands operator when the user moves their hands from the mouse to the keyboard (or vice versa).  Clicking on the hints button (which is only visible when errors/hints exist) will provide suggestions and some cases correct potential issues for you.  The line to which current hint is referring is highlighted in the code.  For example, clicking the word "Add" in the hint below would insert a Hands operator prior to the Type operator.</p>
+                        <p><center><img src="images/hints-tool.png" alt="Hints CHI" class="u-max-full-width"/></center></p>                
                         <br>
 
                         <span class="anchor" id="GANTT_CHART"></span>

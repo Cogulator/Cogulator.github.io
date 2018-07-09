@@ -3,7 +3,7 @@ $(document).ready(function (){
 	if ( $.browser.webkit ) {
 		if ( window.location.pathname != "/try-it.html" ) {
 			let tryItHTML = "<div id='header_nav'><a href='try-it.html' class='nav_menu smaller smallest'>TRY IT</a></div>";
-			$ ('#navi_menu' ).prepend(tryItHTML);
+			$ ('#navi_menu' ).append(tryItHTML);
 		}
 	}
 	

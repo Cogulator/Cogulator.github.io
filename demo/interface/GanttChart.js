@@ -142,10 +142,13 @@ var ganttSketch = function(s) {
 	let fontAndScaleClr = '#363A3B';
 	
 	//loop control: things get laggy while looping, so only loop when focus is on gantt container
+	let isHovering = false;
 	$( "#gantt_container" ).hover(
 		function() { //on over
+			isHovering = true;
 			s.loop();
 		}, function() {
+			isHovering = false;
 			s.noLoop();
 		}
 	);
@@ -772,8 +775,10 @@ var ganttSketch = function(s) {
 	
 	
 	s.mouseWheel = function(evt) {
-		if (evt.delta < 0) scaleTarget = Math.max(1000, scale - 5000);
-		else 			   scaleTarget = Math.min(60000, scale + 5000);
+		if (isHovering) {
+			if (evt.delta < 0) scaleTarget = Math.max(1000, scale - 5000);
+			else 			   scaleTarget = Math.min(60000, scale + 5000);
+		}
 	}
 	
 	

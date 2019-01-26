@@ -169,6 +169,7 @@
                             <li><a href="#MULTITASKING" class="nav_menu">MULTITASK</a> </li>
                             <li><a href="#WM_LOAD" class="nav_menu">WM LOAD</a> </li>
                             <li><a href="#WORKLOAD" class="nav_menu">WORKLOAD</a> </li>
+                            <li><a href="#@REFERENCES" class="nav_menu">@REFERENCES</a> </li>
 							<li><a href="#SELECTION_RULES" class="nav_menu">SELECTION RULES</a> </li>
                             <li><a href="#A_REPRIEVE" class="nav_menu">A REPRIEVE</a> </li>
                         </ul>
@@ -339,14 +340,11 @@
 
                         <span class="anchor" id="WM_LOAD"></span>                
                         <h3>Working Memory Load</h3>
-                        <p>One of the features we're currently working on in Cogulator is an analysis of Working Memory load. Working Memory load is thought to be a reasonable proxy for Mental Workload. Cogulator can automatically add chunks to working memory for you, or you can choose to manually manage working memory.</p>  
-                        <p>In automated mode, Cogulator will add chunks to working memory any time certain operators are used. Those operators include: Store (which you can use to explicitly force a chunk into working memory), Recall, Look, Search, Perceptual_processor, Listen, or Think. Automated working memory analysis can be disabled by clicking the underlined "Do" at the bottom left of the chart.</p>
+                        <p>Working Memory load is a important driver of Mental Workload. To model working memory in Cogulator, we used chunk naming.  Each chunk added to working memory is represented as a colored block in the Gantt chart. Over time, those memories begin to decay, until they're no longer accessible. That decay is symbolized in the chart with the use of transparency - the blocks becoming more and more translucent until they leave memory altogether. The primacy and recency effects of memory are accounted for in the current algorithm.</p>
                         <p><center><img src="images/working-memory.png" alt="Working Memory" class ="u-max-full-width"/></center></p>
-                        <p>Each chunk added to working memory is represented as a colored block in the Gantt chart. Over time, those memories begin to decay, until they're no longer accessible. That decay is symbolized in the chart with the use of transparency - the blocks becoming more and more translucent until they leave memory altogether. The primacy and recency effects of memory are accounted for in the current algorithm.</p>  
 
 
-                        <p>Automated working memory modeling will give you a general sense of overall cognitive load. But, you may want to go deeper with chunk naming. Chunk naming enables better estimates of working memory load, forgetting, and mental workload estimates. To name a chunk, simply place angled brackets around it like so…</p>
-
+                        <p>To name a chunk, simply place angled brackets around it like so…</p>
                         <blockquote>
                         <code>
                         . <span style="color:#268BD2">Look</span> at &lt;<span style="color:#2BA198">fred@cog.com</span>&gt;
@@ -361,7 +359,7 @@
                         </code>
                         </blockquote>
 
-                        <p>To add a named chunk to working memory, it needs to be used in conjunction with one of the operators we mentioned earlier (Recall, Look, Search, Perceptual_processor, Listen, or Think). If the named chunk is in working memory and you pair it with one of these operators again, it’ll add activation to the existing chunk. Using a named chunk without one of these operators will let Cogulator know you want to test whether it is still in memory.  That is, whether it’s been forgotten.</p>
+                        <p>To add a named chunk to working memory, it needs to be used in conjunction with one of the operators we mentioned earlier (Recall, Look, Search, Perceptual_processor, Hear, or Think). If the named chunk is in working memory and you pair it with one of these operators again, it’ll add activation to the existing chunk. Using a named chunk without one of these operators will let Cogulator know you want to test whether it is still in memory.  That is, whether it’s been forgotten.</p>
 
                         <p>Take a look at the following model…</p>
                         <code>
@@ -381,10 +379,39 @@
 
                         <p>These estimates are based on some work on a series of simple experiments I conducted (see <a href="http://hfs.sagepub.com/content/57/7/1174">the Workload Curve</a>). Keep in mind, though based in research, both forgetting and mental workload estimates are experimental features.</p>
                         <br>
-					
+                        
+                        <span class="anchor" id="@REFERENCES"></span>
+                        <h3>@References</h3>
+                        <p>It's fairly common to use a common method like Point and Click repeatedly in a model. For example...</p>
+                        <blockquote>
+                        <code> 
+                        <span style="color:#D33682">Goal:</span> Point Click<br>
+                        . <span style="color:#268BD2">Look</span> at target<br>
+                        . <span style="color:#268BD2">Point</span> to target<br>
+                        . <span style="color:#268BD2">Verify</span> cursor over target
+                        </code>
+                        </blockquote>
+                        <p>And, when you want to use a basic method repeatedly, it's a pain to have to retype it each time.  So, we've added something to Cogulator we call a reference. With a reference, you can tell Cogulator to repeat an already declared method later in the model by simply entering the Goal name with "@", like so...</p>
+                         <blockquote>
+                        <code> 
+                        <span style="color:#6C71C4">@Goal:</span> Point Click<br>
+                        </code>
+                        </blockquote>
+                        <p>This tells Cogulator to repeat the earlier method. If you have chunk names in your method, you can add those to both the intial Goal declearation, and the reference  like so... </p>
+                        <blockquote>
+                        <code> 
+                        <span style="color:#D33682">Goal:</span> Point Click &lt;<span style="color:#2BA198">target</span>&gt;<br>
+                        . <span style="color:#268BD2">Look</span> at &lt;<span style="color:#2BA198">target</span>&gt;<br>
+                        . <span style="color:#268BD2">Point</span> to &lt;<span style="color:#2BA198">target</span>&gt;<br>
+                        . <span style="color:#268BD2">Verify</span> cursor over &lt;<span style="color:#2BA198">target</span>&gt;<br>
+                        <span style="color:#6C71C4">@Goal:</span> Point Click &lt;<span style="color:#2BA198">button</span>&gt;<br>
+                        </code>
+                        </blockquote>
+                        <p>In the example above, adding "&lt;target&gt;" to the goal statement, and "&lt;button&gt;" to the @goal reference results in Cogulator using the named chunk "button" the second time the method is executed rather than "target".</p>
+                              
 					    <span class="anchor" id="SELECTION_RULES"></span>                
                         <h3>Selection Rules</h3>
-                        <p>Selection Rules are If/Then statements commonly used in GOMS. Many people won't ever need selection rules, but for those who do, it's a handy feature (developed by NC State students Prairie Rose Goodwin & Nischal Shrestha). To use selection rules, you'll need: </p>
+                        <p>Selection Rules are If/Then statements commonly used in GOMS. Many people won't ever need selection rules, but for those who do, it's a handy feature (developed by NC State students Prairie Rose Goodwin and Nischal Shrestha). To use selection rules, you'll need: </p>
 					 	<blockquote>
 							<code>
 							<span style="color:#D33682">CreateState</span><br>

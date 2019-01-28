@@ -82,7 +82,7 @@ class InsertionCHI {
 			G.quill.updateContents(new Delta()
 			  .retain(G.insertionCHI.deleteIndex)           
 			  .insert({ 
-				image: './images/empty.png'
+				image: './'
 			  },
 			  {
 				height: '1px'
@@ -91,7 +91,7 @@ class InsertionCHI {
 
 			//method to find image you're adding and get its height (and change its height)
 			let insertedImage = $("img[src$='//:0']");
-			insertedImage.animate({height: "176px"}, 'fast');
+			insertedImage.animate({height: "176px", width: "1px"}, 'fast');
 		} else {
 			 top = top - height - 24; //place this above the line
 		}
@@ -110,9 +110,8 @@ class InsertionCHI {
 	}
 	
 	
-	insert(text) {
+	insert(text) {	
 		let insertIndex = G.insertionCHI.deleteIndex;
-		
 		$.when(G.insertionCHI.hide()).done(function() {
 			G.insertionCHI.insertComplete(text, insertIndex)
 		});
@@ -143,7 +142,7 @@ class InsertionCHI {
 		
 		// If above the line, don't need to remove inserted image, cause it was never added
 		if (!this.isAboveLine) {
-			let insertedImage = $("img[src$='./images/empty.png']");
+			let insertedImage = $("img[src$='//:0']");
 			insertedImage.animate({height: "1px"}, 'fast', function() {
 				G.quill.updateContents(new Delta()
 					.retain(G.insertionCHI.deleteIndex)           
@@ -185,23 +184,23 @@ class InsertionCHI {
 	
 	
 	setMethodHTML() {
-//		var leftColumnHTML = "<div class='insertion_options_column_two_columns'><div class='insertion_column_header'>Built-In</div>";
-//		var rightColumnHTML = "<div class='insertion_options_column_two_columns'><div class='insertion_column_header'>Custom</div>";
-//		
-//		//insert buttons for each method. built in in left column.  custom in right column.
-//		for (var i = 0; i < G.methodsManager.methods.length; i++) {
-//			let method = G.methodsManager.methods[i];
-//			let buttonHTML = this.getMethodButtonHTML(method.file, method.filePath);
-//			
-//			if (method.filePath.includes("custom")) rightColumnHTML += buttonHTML;
-//			else leftColumnHTML += buttonHTML;
-//		}
-//		
-//		leftColumnHTML += "</div>";
-//		rightColumnHTML += "</div>";
-//		
-//		let html = leftColumnHTML + rightColumnHTML;
-//		$('#insertion_options_content').html(html);
+		var leftColumnHTML = "<div class='insertion_options_column_two_columns'><div class='insertion_column_header'>Built-In</div>";
+		var rightColumnHTML = "<div class='insertion_options_column_two_columns'><div class='insertion_column_header'>Custom</div>";
+		
+		//insert buttons for each method. built in in left column.  custom in right column.
+		for (var i = 0; i < G.methodsManager.methods.length; i++) {
+			let method = G.methodsManager.methods[i];
+			let buttonHTML = this.getMethodButtonHTML(method.file, method.filePath);
+            
+			if (method.filePath.toLowerCase().includes("custom")) rightColumnHTML += buttonHTML;
+			else leftColumnHTML += buttonHTML;
+		}
+		
+		leftColumnHTML += "</div>";
+		rightColumnHTML += "</div>";
+		
+		let html = leftColumnHTML + rightColumnHTML;
+		$('#insertion_options_content').html(html);
 	} 
 	
 	
@@ -285,7 +284,7 @@ class InsertionCHI {
 //		
 //		if (scrollbarWidth > 0) return $("#gutter").width() + $("#code").width() + 4;
 //		return ($("#gutter").width() + $("#code").width() + 18);
-		return ($("#gutter").width() + $("#code").width() + 23);
+		return ($("#gutter").width() + $("#code").width() + 12);
 	}
 	
 	

@@ -36,7 +36,7 @@ class Memory {
 		this.interleavedSteps = [];
 		this.colorPalette = ['#2AA198', '#268BD2', '#6C71C4', '#D33682', '#DC322F', '#CB4B16', '#CB4B16', '#B58900'];
 		this.fromStack = 0;
-		this.longTermMemory = []; // Dictionary();
+		//this.longTermMemory = []; // Dictionary();
 
 		this.workingmemory = [];
 		this.rehearsals = []; //used by SubjectiveMentalWorkload
@@ -50,11 +50,18 @@ class Memory {
 
 
 	fire(taskTimeMS) {
-		this.workingmemory.length = 0;
-		this.overloadedStacks.length = 0;
-		this.rehearsals.length = 0;
+        //reset everything
+		this.interleavedSteps.length = 0;
 		this.colorPalette = ['#2AA198', '#268BD2', '#6C71C4', '#D33682', '#DC322F', '#CB4B16', '#CB4B16', '#B58900'];
-		
+		this.fromStack = 0;
+		//this.longTermMemory = [];
+
+		this.workingmemory.length = 0;
+		this.rehearsals.length = 0;
+		this.averageLoad = 0.0
+		this.overloadedStacks.length = 0;
+        
+		//start processing
 		var intersteps = G.gomsProcessor.intersteps;
 
 		var totalCycles = (Math.round(taskTimeMS / 50) * 50) / 50;
@@ -65,15 +72,14 @@ class Memory {
 		
 		//populate a working memory array with empty arrays
 		for (var i = 0; i < totalCycles + 1; i++) this.workingmemory.push([]); ; //initialize the stacks within memory (one for each 50ms cycle)
-
+        
 		this.interleavedSteps.length = 0;
 		for (var i = 0; i < intersteps.length; i++) this.interleavedSteps.push(intersteps[i]);
 
-		//this.interleavedSteps.sortOn("endTime", Array.NUMERIC);
 		this.interleavedSteps.sort(function(a, b){
 			return a.endTime-b.endTime;
 		});
-
+        
 		for (var i = 0; i < this.interleavedSteps.length; i++) {
 			var step = this.interleavedSteps[i];
 			var stackToAddChunk = this.findChunkStackAtTime(step.endTime);
@@ -81,7 +87,7 @@ class Memory {
 
 			var isWmOperator = this.isWorkingMemoryOperator(step.operator, step.resource, false); //set to false if you don't want to automate working memory
 			if (step.chunkNames.length > 0) {
-				isWmOperator = this.isWorkingMemoryOperator(step.operator, step.resource, true); //count any operators that would count if set to automatic if chunk name is inserted
+				isWmOperator = this.isWorkingMemoryOperator(step.operator, step.resource, true); //count any operators if chunk name is inserted
 				for (var j = 0; j < step.chunkNames.length; j++) {
 					var chunkName = step.chunkNames[j];
 					if (step.operator == "ignore") {
@@ -102,28 +108,34 @@ class Memory {
 
 	pushChunk(isWmOperator, operator, chunkName, chunkStack, step) {
 		var rehearsals = this.initialRehearsal;
-		if (operator == "recall") rehearsals = 10; //if recalling from LTM, and not already an existing chunk, assume an initial level of rehearsals that's fairly high
-
+		if (operator == "recall") rehearsals = 10; //if recalling from LTM, and not already an existing chunk, assume an initial level of rehearsal that's fairly high
+        
 		var chunkAction = ""
 		var atTime = step.endTime;
 
 		var existingChunk = null;
-		if (chunkName != "") existingChunk = this.getExistingChunk(chunkName, chunkStack);
+		if (chunkName != "") existingChunk = this.getExistingChunk(operator, chunkName, chunkStack);
 
 		if (chunkName == "" || (!existingChunk && isWmOperator)) {
-			var chunk = new Chunk(chunkName, atTime, -1, rehearsals, 1, this.colorPalette[0]); //name, addTime, stackHeight, rehearsals, recallProb, color
+			var chunk = new Chunk(chunkName, atTime, -1, rehearsals, 1, this.colorPalette[0], step.lineNo); //name, addTime, stackHeight, rehearsals, recallProb, color
+			chunk.activation = this.getActivation(chunkStack, this.getTimeChunkInMemoryInSeconds(chunkStack, atTime), rehearsals);
+			chunk.goal = step.goal;
+			chunk.goalMap = step.goalMap;
 			if (this.workingmemory.length > chunkStack) {	
 				this.workingmemory[chunkStack].push(chunk);
 				this.colorPalette.push(this.colorPalette[0]); //place the current color at end of list
 				this.colorPalette.shift(); // remove the current color from begninning of list
 			}
+            //this.longTermMemory[chunk.chunkName] = chunk;
 		} else if (existingChunk && isWmOperator) { //chunks in lines like Say or Type, will be color coded and tested for memory availablity, but they don't add activation
+            //this.longTermMemory[chunkName] = existingChunk;
 			this.addRehearsalToChunk(chunkName, chunkStack);
 		} else if (existingChunk) { //push to rehearsals so Mental Workload can be calculated
 			var timeInMemory = this.getTimeChunkInMemoryInSeconds(chunkStack, existingChunk.addedAt);
 			var activation = this.getActivation(existingChunk.stackDepthAtPush, timeInMemory, existingChunk.rehearsals)
 			this.pushRehearsals(chunkName, activation, chunkStack); //used by SubjectiveMentalWorkload
 			chunkAction = "pushed_rehearsals";
+			existingChunk.goalMap = step.goalMap;
 		} else if (!existingChunk) {
 			G.errorManager.errors.push(new GomsError("forgetting_error", step.lineNo, "Trying to recall " + chunkName + ", but it is not in memory. It was either never put in memory, or forgotten.  You can add to memory with Store operator.", chunkName));
 		}
@@ -148,7 +160,10 @@ class Memory {
 					if (recallProbability > 1) recallProbability = 0.999; //rounding time sometimes results in recall > 1
 
 					if (recallProbability > this.recallThreshold) {
-						var updatedChunk = new Chunk(chunk.chunkName, chunk.addedAt, chunk.stackDepthAtPush, chunk.rehearsals, recallProbability, chunk.color); //name, addTime, stackHeight, accessCount, recallProb, color
+						var updatedChunk = new Chunk(chunk.chunkName, chunk.addedAt, chunk.stackDepthAtPush, chunk.rehearsals, recallProbability, chunk.color, chunk.lineNumber); //name, addTime, stackHeight, accessCount, recallProb, color
+						updatedChunk.activation = this.getActivation(chunk.stackDepthAtPush, timeChunkInMemoryInSeconds, chunk.rehearsals);
+						updatedChunk.goal = chunk.goal;
+						updatedChunk.goalMap = chunk.goalMap
 						if (this.workingmemory[i] != undefined) this.workingmemory[i].push(updatedChunk); //occasionally getting undefined with last stack...
 					}
 				}
@@ -167,19 +182,19 @@ class Memory {
 	}		
 
 
-	//Method to pop oldest chunk
+	//Method to pop weakest chunk.  Used to be the oldest chunk.
 	popChunk(cycleIndex) {
-		var indexForOldestChunk = -1
-		var earliestTime = 1000000000.0;
+        var indexForWeakestChunk = -1
+		var weakestActivation = 1000000000.0;
 
 		for (var i = 0; i < this.workingmemory[cycleIndex].length; i++) {
-			if (this.workingmemory[cycleIndex][i].addedAt < earliestTime) {
-				earliestTime = this.workingmemory[cycleIndex][i].addedAt;
-				indexForOldestChunk = i;
+			if (this.workingmemory[cycleIndex][i].activation < weakestActivation) {
+				weakestActivation = this.workingmemory[cycleIndex][i].activation;
+				indexForWeakestChunk = i;
 			}
 		}
 
-		this.workingmemory[cycleIndex].splice(indexForOldestChunk, 1);
+		this.workingmemory[cycleIndex].splice(indexForWeakestChunk, 1);
 	}
 
 
@@ -189,7 +204,7 @@ class Memory {
 		for (var i = 0; i < this.workingmemory[cycleIndex].length; i++) {
 			var chunk = this.workingmemory[cycleIndex][i];
 			if (chunk.chunkName == chunkName) {
-				this.longTermMemory[chunk.chunkName] = chunk;
+				//this.longTermMemory[chunk.chunkName] = chunk;
 				this.workingmemory[cycleIndex].splice(i, 1);
 				break;
 			}
@@ -225,17 +240,18 @@ class Memory {
 	//based on ACT-R & Workload Curve paper
 	getActivation(cogLoad, timeChunkInMemoryInSeconds, rehearsals) {
 		var m = Math.log(rehearsals/Math.sqrt(timeChunkInMemoryInSeconds)); //activation
-			m = (m + 1 / cogLoad) - 1; //activation divided among all chunks
+            m = (m + 1 / cogLoad) - 1
+			//m = m + (1 / cogLoad) - 1; //activation divided among all chunks
 		return m;
 	}
 
 
 	addRehearsalToChunk(chunkName, stack) {
-		for (var i; i < this.workingmemory[stack - 1].length; i++) {
+		for (var i = 0; i < this.workingmemory[stack - 1].length; i++) {
 			var chunk = this.workingmemory[stack - 1][i];
 			if (chunk.chunkName == chunkName) {
 				chunk.rehearsals++;
-				break;
+				return;
 			}
 		}
 	}
@@ -283,22 +299,22 @@ class Memory {
 	}
 
 
-	isWorkingMemoryOperator(operator, resource, automate) {
-		if (automate) { //if the user has the model set to automatic
+	isWorkingMemoryOperator(operator, resource, chunkNamed) {
+		if (chunkNamed) { //if this includes a named chunk
 			if ((resource == "see" || resource == "hear" || resource == "cognitive") && operator != "saccade" && operator != "verify") {
 				return true;
 			}
-		} else {
-			if (operator == "store" || operator == "recall") {
-				return true;
-			}
-		}
+		} 
+			
+        if (operator == "store" || operator == "recall") {
+            return true;
+        }
+        
 		return false;
 	}
 
-
 	
-	getExistingChunk(chunkName, stack) {			
+	getExistingChunk(operator, chunkName, stack) {			
 		//first check to see if the chunk exists in WM
 		for (var i = 0; i < this.workingmemory[stack - 1].length; i++) {
 			var chunk = this.workingmemory[stack - 1][i];
@@ -306,14 +322,22 @@ class Memory {
 		}
 
 		//if not in WM, check to see if LTM
-		if (this.longTermMemory[chunkName] != undefined) {
-			var stck = stack
-			if (stck >= this.workingmemory.length) stck = this.workingmemory.length - 1;
-			this.workingmemory[stck].push(this.longTermMemory[chunkName]);
-			return(this.longTermMemory[chunkName]);
-		}
-
+        //-- NOTE: Right now, I'm not sure about this at all
+        //         If you restore anything that was ever in LTM you essentially get infinite memory.
+        //         For the time being, it'll only pull stuff out of LTM with cognitive operators.
+        //         Otherwise, the chunk needs to be at > 50% probability of recall.
+//        if (operator.resource == "cognitive") {
+//            if (this.longTermMemory[chunkName] != undefined) {
+//                if (this.workingmemory[stack - 1].length >= 7) {
+//                    this.popChunk(stack - 1);
+//                }
+//                this.workingmemory[stack - 1].push(this.longTermMemory[chunkName]);
+//                return this.longTermMemory[chunkName]
+//            }
+//        }
+        
 		return null;
 	}
 
 }
+

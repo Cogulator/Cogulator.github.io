@@ -1,10 +1,14 @@
 class HelpScreen {
 	constructor(){
-		this.images = ['./images/help_1.png', './images/help_2.png', './images/help_3.png', './images/help_4.png', './images/help_5.png', './images/help_6.png','./images/help_7.png'];
+		this.images = ['./images/help_1.png', './images/help_2.png', './images/help_3.png', './images/help_4.png', './images/help_5.png', './images/help_6.png','./images/help_7.png','./images/help_8.png'];
 		this.index = 0;
 		
 		this.leftNavHTML = "<div id='help_left_nav_button' class='circle_button help_nav_button'>&lt;</div>";
 		this.rightNavHTML = "<div id='help_right_nav_button' class='circle_button help_nav_button'>&gt;</div>";
+		
+		ipcRenderer.on('Help->Quick Start', (sender, arg) => {
+			G.helpScreen.show();
+		})
 		
 		$('#help_close_button').click(function() {
 			G.helpScreen.hide();

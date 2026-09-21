@@ -235,3 +235,93 @@ li.selected a{
     color: #555;
     display: block;
 }
+
+/*------ Download Page -----*/
+.gradient-divider {
+    background: linear-gradient(90deg, #6cc1bb, #5daae0);
+    height: 2px;
+}
+
+.download-page {
+    max-width: 960px;
+    padding-bottom: 5rem;
+    padding-top: 5rem;
+    text-align: center;
+}
+
+.download-step {
+    margin: 0 auto;
+    max-width: 780px;
+}
+
+.step-label {
+    color: #66b8c9;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.12rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.download-step h3 {
+    margin-bottom: 0.75rem;
+}
+
+.download-intro {
+    color: #777;
+    margin-bottom: 2.5rem;
+}
+
+.download-options {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.download-option {
+    border-radius: 50%;
+    display: block;
+    line-height: 0;
+    transition: transform 0.2s ease;
+}
+
+.download-option:hover,
+.download-option:focus {
+    transform: translateY(-4px);
+}
+
+.download-option img {
+    height: auto;
+    max-width: 150px;
+}
+
+.download-or {
+    color: #888;
+    margin: 0 2.5rem;
+}
+
+.download-next {
+    border-top: 1px solid #e3e3e3;
+    margin-top: 4.5rem;
+    padding-top: 3.5rem;
+}
+
+@media (max-width: 549px) {
+    .download-page {
+        padding-top: 3.5rem;
+    }
+
+    .download-options {
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .download-or {
+        margin: 0;
+    }
+
+    .download-next {
+        margin-top: 3.5rem;
+        padding-top: 2.5rem;
+    }
+}

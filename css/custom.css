@@ -163,6 +163,11 @@ li.selected a{
 }
 
 /*------ Hero Stuff -----*/
+.hero-row {
+    display: flex;
+    align-items: center;
+}
+
 .eyebrow { 
     font-size: 12px; 
     text-transform: uppercase; 
@@ -193,7 +198,12 @@ li.selected a{
     font-size: 14px; 
 }
 
+@media (max-width: 549px) {
+    .hero-row {
+        display: block;
+    }
+}
+
 .button-primary:hover { 
     background: #0f536e; 
 }
-

@@ -207,3 +207,31 @@ li.selected a{
 .button-primary:hover { 
     background: #0f536e; 
 }
+
+/*------ News -----*/
+.news-section h4 {
+    margin-bottom: 1.25rem;
+}
+
+.news-list {
+    margin: 0;
+}
+
+.news-list li {
+    border-bottom: 1px solid #e3e3e3;
+    display: flex;
+    gap: 1.25rem;
+    padding: 0.85rem 0;
+}
+
+.news-list time {
+    color: #777;
+    flex: 0 0 6.5rem;
+    font-size: 1.25rem;
+    padding-top: 0.15rem;
+}
+
+.news-list strong {
+    color: #555;
+    display: block;
+}

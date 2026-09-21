@@ -1,0 +1,20 @@
+{
+  "name": "cogulator-scenarios",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "A browser-based scenario-level profiler for Cogulator GOMS models.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "postbuild": "node scripts/publish.mjs",
+    "preview": "vite preview",
+    "test": "node --test"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@cogulator/modeling-engine": "file:../../Cogulator/packages/modeling-engine"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2"
+  }
+}

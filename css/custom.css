@@ -30,6 +30,12 @@ body {
   background-color:#F8F8F8;
 }
 
+h4 {
+    font-family: "DM Serif Display", serif;
+    font-style: normal;
+    color:#555;
+}
+
 .annotation {
     font-size:0.8em;
     color: darkgray;
@@ -135,6 +141,14 @@ li.selected a{
     float:left;
 }
 
+#navi_menu{
+    /*
+    position: absolute;
+    right: 20px;
+    top: 0;  Or adjust vertically as needed 
+    */
+}
+
 /*------ Go to Top -----*/
 .go-top {
 	position: fixed;
@@ -148,5 +162,38 @@ li.selected a{
 	display: none;
 }
 
+/*------ Hero Stuff -----*/
+.eyebrow { 
+    font-size: 12px; 
+    text-transform: uppercase; 
+    letter-spacing: 3px;
+     color: #66b8c9; 
+     margin-bottom: 19px;
+ }
 
+.hero-description { 
+    max-width: 550px; 
+}
+
+.hero-link { 
+    font-size: 14px;
+    margin-left: 16px; 
+    margin-right: 0; 
+}
+
+.button-primary:link, .button-primary:visited { 
+    display: inline-flex; 
+    gap: 25px; 
+    align-items: center; 
+    background: #126484; 
+    color: white; 
+    padding: 13px 20px; 
+    border-radius: 5px; 
+    text-decoration: none; 
+    font-size: 14px; 
+}
+
+.button-primary:hover { 
+    background: #0f536e; 
+}
 

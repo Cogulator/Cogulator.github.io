@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#f8f8f8">
+    <title>Cogulator · Scenario Profiler</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div id="app">
+      <main class="setup-mode">
+        <section class="stats-nav hidden" aria-label="Scenario metrics"><div class="stats-group">
+          <div class="stat"><strong id="stat-time">—</strong><span>scenario span</span></div>
+          <div class="stat"><strong id="stat-memory">— <i>chunks</i></strong><span>average memory load</span></div>
+          <div class="stat"><strong id="stat-workload">—</strong><span>peak workload</span></div></div>
+          <button id="download-source" class="quiet-button" disabled>Export Scenario GOMS</button>
+        </section>
+        <section class="workspace">
+          <div id="setup-view">
+            <div class="setup-content">
+              <div class="drop-zone-grid">
+                <div class="drop-zone" id="scenario-drop-zone">
+                  <div class="drop-topline"><span class="step-number">01</span><span class="file-type">CSV</span></div>
+                  <svg class="drop-icon" viewBox="0 0 40 40" aria-hidden="true"><rect x="7" y="6" width="26" height="28" rx="3"/><path d="M7 15h26M16 15v19M7 24h26"/></svg>
+                  <h2>Scenario schedule</h2><p>The tasks, their start times,<br>and how they fit together.</p>
+                  <label class="file-button" for="scenario-file-input">Choose scenario <span aria-hidden="true">↑</span><input id="scenario-file-input" type="file" accept=".csv,text/csv" aria-describedby="scenario-drop-status"></label>
+                  <span class="drop-hint">or drop a .csv file here</span><small id="scenario-drop-status" class="file-status">No scenario loaded</small>
+                </div>
+                <div class="drop-zone" id="models-drop-zone">
+                  <div class="drop-topline"><span class="step-number">02</span><span class="file-type">GOMS</span></div>
+                  <svg class="drop-icon" viewBox="0 0 40 40" aria-hidden="true"><rect x="12" y="6" width="22" height="27" rx="3"/><path d="M7 12H6v24h22v-1M18 14h10M18 20h10M18 26h6"/></svg>
+                  <h2>Cogulator models</h2><p>The individual models<br>referenced in your schedule.</p>
+                  <label class="file-button" for="models-file-input">Choose models <span aria-hidden="true">↑</span><input id="models-file-input" type="file" accept=".goms" multiple aria-describedby="models-drop-status"></label>
+                  <span class="drop-hint">or drop your .goms files here</span><small id="models-drop-status" class="file-status">No models loaded</small>
+                </div>
+              </div>
+              <p class="setup-note"><span aria-hidden="true">↳</span> Your profile opens automatically when both are loaded.</p>
+              <details class="format-guide"><summary>What goes in a scenario file?</summary><p>Use these five CSV columns. Give each task a unique name and match the .goms filenames you load. Times are non-negative seconds (decimals allowed).</p><code>unique_task_name,goms_file,start_type,reference_task,start_time_in_seconds<br>alert,Alert.goms,starting_at,,15<br>reply,Reply.goms,starting_after,alert finishes,2<br>monitor,Monitor.goms,starting_after,alert starts,0</code><p><code>starting_at</code> sets a scenario offset; leave the reference blank. For <code>starting_after</code>, enter a task name followed by <code>starts</code> or <code>finishes</code>, exactly as in a Task. The seconds add a delay after that event. Thread names are assigned automatically.</p></details>
+            </div>
+          </div>
+          <div id="results-view" class="hidden">
+            <section id="timeline-view" aria-labelledby="timeline-heading">
+              <div class="section-heading timeline-heading"><h2 id="timeline-heading">TIMELINE</h2><div class="timeline-controls" role="group" aria-label="Timeline zoom"><button id="zoom-in" aria-controls="chart" title="Zoom in" aria-label="Zoom in">+</button><button id="zoom-fit" aria-controls="chart" title="Fit the entire scenario">Fit</button><button id="zoom-out" aria-controls="chart" title="Zoom out" aria-label="Zoom out">−</button></div></div>
+              <div id="chart" class="gantt-chart" aria-label="Task overlap timeline" tabindex="0"></div>
+              <div class="timeline-caption"><span id="scenario-filename"></span></div>
+            </section>
+            <section id="stats-view" aria-labelledby="summary-heading">
+              <div class="section-heading"><h2 id="summary-heading">SUMMARY</h2></div>
+              <div class="summary-panel">
+                <div class="summary-toolbar"><button id="download-summary" class="quiet-button" disabled>Export Summary Data</button></div>
+                <pre id="source-errors" class="source-errors hidden" role="status"></pre>
+                <div id="stats-content"></div>
+                <details id="source-view"><summary>Inspect scenario GOMS</summary><textarea id="source-text" readonly spellcheck="false" aria-label="Combined GOMS source"></textarea></details>
+              </div>
+            </section>
+            <div class="result-actions"><button id="new-scenario" class="new-scenario-button"><span aria-hidden="true">+</span>New Scenario</button></div>
+          </div>
+        </section>
+      </main>
+      <footer class="app-footer"><span id="status-message" role="status" aria-live="polite">Ready when you are</span></footer>
+    </div>
+    <script type="module" src="renderer.js"></script>
+  </body>
+</html>

@@ -167,6 +167,7 @@
                             <li><a href="#ERRORS_CHI" class="nav_menu">ERRORS CHI</a> </li>
                             <li><a href="#GANTT_CHART" class="nav_menu">GANTT CHART</a> </li>
                             <li><a href="#MULTITASKING" class="nav_menu">MULTITASK</a> </li>
+                            <li><a href="#TASK" class="nav_menu">TASKS</a> </li>
                             <li><a href="#WM_LOAD" class="nav_menu">WM LOAD</a> </li>
                             <li><a href="#WORKLOAD" class="nav_menu">WORKLOAD</a> </li>
                             <li><a href="#@REFERENCES" class="nav_menu">@REFERENCES</a> </li>
@@ -338,6 +339,30 @@
                         <p>Adding "as hands" to the end of the "Also:" line would ensure that multiple methods are on this same thread. You can think of a thread as adding a new lane to a highway. Everything that has the same label after the "as" will be in the same lane and therefore will happen serially. Operators in other threads can occur in parallel to the new thread. As with operator labels, the thread label is user-defined. </p>
                         <p>Parallel execution is visualized in the Gantt chart. An example of parallel and serial execution of the same tasks is depicted in the image below. In the example, an imagined telephone operator needs to log into a workstation just as they receive their first call. In the serial example (upper panel), the call is received and then the operator logs in. These tasks happen in parallel in the lower panel. Note that new threads are randomly assigned their own color (orange in this example) to distinguish them from the base thread.</p>
                         <p><center><img src="images/multitasking.png" alt="Multitasking" class ="u-max-full-width"/></center></p>
+                        <br>
+                        
+            
+                        <span class="anchor" id="TASK"></span>
+                        <h3>Task</h3>
+                        <p>The Task construct lets you bring separate activities into the same model and specify when each can begin. For example, you might want to model checking a display two seconds into a scenario, then announcing the result once that check is complete. Each Task contains its own Goals and operators, and can include Also statements for multitasking within the task.</p>
+                        <p>Start with a Task statement at the top level of the model, and indent its contents just as you would beneath a Goal. The label describes the activity, while the name after "as" gives the task a unique ID that other tasks can refer to. The starting_at keyword specifies a time measured from the beginning of the model:</p>
+                        <blockquote>
+                        <code>
+                        <span style="color:#D33682">Task:</span> Check display as check starting_at 2 <span style="color:#859900">seconds</span><br>
+                        . <span style="color:#D33682">Goal:</span> Read status<br>
+                        . . <span style="color:#268BD2">Look</span> at display (1 <span style="color:#859900">seconds</span>)<br>
+                        . . <span style="color:#268BD2">Think</span> about status (2 <span style="color:#859900">seconds</span>)
+                        </code></blockquote>
+                        <p>To schedule another task relative to this one, use starting_after followed by its ID and either starts or finishes. You can add a delay with plus. Adding the following task to the example above schedules the announcement one second after the display check finishes:</p>
+                        <blockquote>
+                        <code>
+                        <span style="color:#D33682">Task:</span> Announce status as announce starting_after check finishes plus 1 <span style="color:#859900">seconds</span><br>
+                        . <span style="color:#D33682">Goal:</span> Report result<br>
+                        . . <span style="color:#268BD2">Say</span> Ready (1 <span style="color:#859900">seconds</span>)
+                        </code></blockquote>
+                        <p>Replacing finishes with starts would schedule the announcement relative to the display check's actual start. A task finishes when all of its threads, including any Also branches, have finished. Tasks can appear in any order in the model, but each referenced ID must exist and tasks cannot depend on each other in a circle.</p>
+                        <p>Task times can use seconds or milliseconds (ms), including decimal values such as 2.5 seconds. Use the underscores in starting_at and starting_after, and leave these times outside parentheses. If you omit the timing clause, the task is ready to begin at time zero. These times specify when a task becomes available; its operators may still have to wait for a resource being used by another task. Tasks share the same human resources, so scheduling two tasks at the same time does not guarantee that their operators will run in parallel.</p>
+                        <p>Keep every Task at the top level, with a unique ID containing no spaces. IDs must begin with a letter or underscore, and can contain letters, numbers, underscores, and hyphens. Once you use Task statements, place all Goals, Also statements, and operators inside a Task. GoTo is not currently supported inside Task containers.</p>
                         <br>
 
                         <span class="anchor" id="WM_LOAD"></span>                

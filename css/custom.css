@@ -325,3 +325,117 @@ li.selected a{
         padding-top: 2.5rem;
     }
 }
+
+/*------ Resources Page -----*/
+.resources-page {
+    max-width: 960px;
+    padding-bottom: 5rem;
+    padding-top: 4.5rem;
+}
+
+.resources-section {
+    max-width: 780px;
+}
+
+.section-label {
+    color: #66b8c9;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.12rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.resources-section h3 {
+    margin-bottom: 0.75rem;
+}
+
+.resources-note {
+    color: #777;
+    margin-bottom: 2.5rem;
+}
+
+.resource-videos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.resource-videos .resource-video {
+    background: #fff;
+    border: 1px solid #e3e3e3;
+    box-sizing: border-box;
+    float: none;
+    margin-left: 0;
+    padding: 1.25rem;
+    width: calc((100% - 4rem) / 3);
+}
+
+.resource-video .embed-container {
+    margin: -1.25rem -1.25rem 1.25rem;
+}
+
+.video-title {
+    color: #555;
+    font-weight: 700;
+    margin: 0;
+}
+
+.resource-video > ul {
+    margin: 0.75rem 0 0;
+}
+
+.resource-video > div:not(.embed-container) {
+    color: #777;
+    font-size: 1.3rem !important;
+    line-height: 1.5;
+}
+
+.resources-reading {
+    border-top: 1px solid #e3e3e3;
+    margin-top: 4.5rem;
+    padding-top: 3.5rem;
+}
+
+.reading-list {
+    margin: 1.5rem 0 0;
+}
+
+.reading-list li {
+    border-bottom: 1px solid #e3e3e3;
+    padding: 0.85rem 0;
+}
+
+.reading-list a {
+    text-decoration: none;
+}
+
+.reading-list a:hover,
+.reading-list a:focus {
+    text-decoration: underline;
+}
+
+.reading-list span {
+    color: #777;
+    font-size: 1.3rem;
+    margin-left: 0.5rem;
+}
+
+@media (max-width: 549px) {
+    .resources-page {
+        padding-top: 3.5rem;
+    }
+
+    .resource-videos {
+        gap: 1.5rem;
+    }
+
+    .resource-videos .resource-video {
+        width: 100%;
+    }
+
+    .resources-reading {
+        margin-top: 3.5rem;
+        padding-top: 2.5rem;
+    }
+}

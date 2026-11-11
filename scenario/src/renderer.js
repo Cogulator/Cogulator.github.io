@@ -1,5 +1,4 @@
 import { parseScenarioCsv, serializeScenarioCsv } from './scenario-csv.js';
-import { profileScenarioInBrowser } from './browser-profiler.js';
 import { buildSummary, summaryCsv } from './summary-data.js';
 
 const state = {
@@ -64,10 +63,10 @@ function renderStatsView() {
   const summary = buildSummary(state.tasks, state.profile);
   $('#download-summary').disabled = !summary;
   if (!summary) { $('#stats-content').innerHTML = '<p class="empty-chart">No summary results available.</p>'; return; }
-  const maxima = Object.fromEntries(['instances','averageTaskTime','taskTimeStandardDeviation','averageMemoryLoad','memoryLoadStandardDeviation','multitaskingTime'].map(key => [key, Math.max(...summary.models.map(model => model[key]))]));
+  const maxima = Object.fromEntries(['instances','averageTaskTime','averageOperatorTime','averageWaitingTime','averageStartDelay','taskTimeStandardDeviation','averageMemoryLoad','memoryLoadStandardDeviation','multitaskingTime'].map(key => [key, Math.max(...summary.models.map(model => model[key]))]));
   const dataBar = (value, maximum, label) => `<td class="data-bar" style="--bar:${maximum ? value / maximum * 100 : 0}%"><span>${label}</span></td>`;
-  const rows = summary.models.map(model => `<tr><td>${escapeHtml(model.model.replace(/\.goms$/i, ''))}</td>${dataBar(model.instances, maxima.instances, model.instances)}${dataBar(model.averageTaskTime, maxima.averageTaskTime, `${model.averageTaskTime.toFixed(2)} s`)}${dataBar(model.taskTimeStandardDeviation, maxima.taskTimeStandardDeviation, `${model.taskTimeStandardDeviation.toFixed(2)} s`)}${dataBar(model.averageMemoryLoad, maxima.averageMemoryLoad, model.averageMemoryLoad.toFixed(2))}${dataBar(model.memoryLoadStandardDeviation, maxima.memoryLoadStandardDeviation, model.memoryLoadStandardDeviation.toFixed(2))}${dataBar(model.multitaskingTime, maxima.multitaskingTime, `${model.multitaskingTime.toFixed(2)} s`)}</tr>`).join('');
-  $('#stats-content').innerHTML = `<div class="summary-table-scroll"><table class="summary-table"><caption>Model averages across all task instances</caption><thead><tr><th scope="col">Model</th><th scope="col">Instances</th><th scope="col">Average task time</th><th scope="col">Task time SD</th><th scope="col">Average WM load</th><th scope="col">WM load SD</th><th scope="col">Total time multitasked</th></tr></thead><tbody>${rows}</tbody></table></div><p class="summary-note">SD is the population standard deviation across all instances of a model. WM load is the average number of chunks present while an instance is active. Each data bar is scaled to the largest value in its column.</p>`;
+  const rows = summary.models.map(model => `<tr><td>${escapeHtml(model.model.replace(/\.goms$/i, ''))}</td>${dataBar(model.instances, maxima.instances, model.instances)}${dataBar(model.taskTimePercentage, 100, `${model.taskTimePercentage.toFixed(1)}%`)}${dataBar(model.averageTaskTime, maxima.averageTaskTime, `${model.averageTaskTime.toFixed(2)} s`)}${dataBar(model.averageOperatorTime, maxima.averageOperatorTime, `${model.averageOperatorTime.toFixed(2)} s`)}${dataBar(model.averageWaitingTime, maxima.averageWaitingTime, `${model.averageWaitingTime.toFixed(2)} s`)}${dataBar(model.averageStartDelay, maxima.averageStartDelay, `${model.averageStartDelay.toFixed(2)} s`)}${dataBar(model.taskTimeStandardDeviation, maxima.taskTimeStandardDeviation, `${model.taskTimeStandardDeviation.toFixed(2)} s`)}${dataBar(model.averageMemoryLoad, maxima.averageMemoryLoad, model.averageMemoryLoad.toFixed(2))}${dataBar(model.memoryLoadStandardDeviation, maxima.memoryLoadStandardDeviation, model.memoryLoadStandardDeviation.toFixed(2))}${dataBar(model.multitaskingTime, maxima.multitaskingTime, `${model.multitaskingTime.toFixed(2)} s`)}</tr>`).join('');
+  $('#stats-content').innerHTML = `<div class="summary-table-scroll"><table class="summary-table"><caption>Model summary across all task instances</caption><thead><tr><th scope="col">Model</th><th scope="col">Instances</th><th scope="col">% of total task time</th><th scope="col">Average elapsed task time</th><th scope="col">Average operator time</th><th scope="col">Average waiting time</th><th scope="col">Average start delay</th><th scope="col">Elapsed time SD</th><th scope="col">Average WM load</th><th scope="col">WM load SD</th><th scope="col">Total time multitasked</th></tr></thead><tbody>${rows}</tbody></table></div><p class="summary-note">Elapsed task time runs from the first operator’s start to the last operator’s finish. Operator time counts periods with at least one operator running, including explicit Wait operators; concurrent branches count once. Waiting time is the remaining time within that span. Start delay runs from the scheduled start to the first operator and is excluded from elapsed task time. SD is the population standard deviation across all instances of a model. WM load is the average number of chunks present while an instance is active. % of total task time is the sum of a model’s elapsed task durations divided by the sum across all task instances, including waiting time and excluding start delay. Overlapping instances each contribute their full duration. Percentage bars use a 0–100% scale; other data bars are scaled to the largest value in their column.</p>`;
 }
 function renderSetup() {
   const needsSetup = !state.tasks.length || !state.models.length;
@@ -93,18 +92,43 @@ function render() { renderSetup(); renderChart(); renderStats(); renderStatsView
 function setStatus(message, error = false) { $('#status-message').textContent=message; $('#status-message').classList.toggle('error', error); }
 
 let profileRequest = 0;
+let profileWorker;
+function cancelProfile() {
+  profileWorker?.terminate();
+  profileWorker = null;
+}
+function runProfile(data) {
+  cancelProfile();
+  return new Promise((resolve, reject) => {
+    const worker = new Worker(new URL('./profile-worker.js', import.meta.url), { type: 'module' });
+    profileWorker = worker;
+    worker.onmessage = ({ data }) => {
+      worker.terminate();
+      if (profileWorker === worker) profileWorker = null;
+      if (data.error) reject(new Error(data.error));
+      else resolve(data.profile);
+    };
+    worker.onerror = event => {
+      worker.terminate();
+      if (profileWorker === worker) profileWorker = null;
+      reject(new Error(event.message || 'Could not profile scenario'));
+    };
+    worker.postMessage(data);
+  });
+}
 async function profileCurrentScenario() {
   if (!state.tasks.length || !state.models.length) return;
   const request = ++profileRequest;
   try {
     setStatus('Profiling scenario…');
-    const profile = profileScenarioInBrowser({ tasks:state.tasks, models:state.models });
+    const profile = await runProfile({ tasks:state.tasks, models:state.models });
     if (request !== profileRequest) return;
     state.profile = profile;
     state.zoom = 1;
     render();
     if (profile.errors.length && !profile.taskInstances.length) $('#source-view').open = true;
-    setStatus(`Scenario profiled · ${profile.errors.length ? `${profile.errors.length} modeling issue${profile.errors.length === 1 ? '' : 's'} · see summary` : 'no modeling issues'}`);
+    const origin = profile.timeOrigin ? ` · timestamps relative to ${new Date(profile.timeOrigin).toISOString()}` : '';
+    setStatus(`Scenario profiled${origin} · ${profile.errors.length ? `${profile.errors.length} modeling issue${profile.errors.length === 1 ? '' : 's'} · see summary` : 'no modeling issues'}`);
   } catch (error) {
     if (request !== profileRequest) return;
     state.profile = null;
@@ -204,6 +228,7 @@ bindDropZone('#scenario-drop-zone', '.csv', async files => loadScenarioFile(file
 bindDropZone('#models-drop-zone', '.goms', loadModelFiles);
 $('#new-scenario').onclick = () => {
   ++profileRequest;
+  cancelProfile();
   Object.assign(state, { models: [], tasks: [], profile: null, scenarioName: '', zoom: 1 });
   $('#source-view').open = false;
   render(); setStatus('Ready when you are');

@@ -40,13 +40,23 @@ export function profileScenarioInBrowser({ tasks, models }) {
     return { id: task.id, model: task.model, source, startType,
       startTime: parseScenarioTime(task.startValue), referenceTask: task.referenceTask };
   });
+  // Unix seconds are wall-clock timestamps, not decades of initial idle time.
+  // Keep ordinary elapsed offsets (including initial idle time) unchanged.
+  const absolute = prepared.filter(task => task.startType === 'absolute');
+  const earliest = absolute.reduce((min, task) => Math.min(min, task.startTime), Infinity);
+  const timeOrigin = Number.isFinite(earliest) && earliest >= 1e12 ? earliest : 0;
+  if (timeOrigin) {
+    for (const task of absolute) task.startTime -= timeOrigin;
+  }
   const result = profileScenario({ tasks: prepared });
 
   return {
+    timeOrigin,
     source: result.source,
     sourceMap: result.sourceMap,
     totalTaskTime: result.totalTaskTime,
     taskInstances: result.taskInstances,
+    steps: result.steps.map(({ taskId, startTime, endTime }) => ({ taskId, startTime, endTime })),
     memory: {
       averageLoad: result.memory.averageLoad,
       loads: result.memory.workingMemory.map(stack => stack.length),

@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#f8f8f8">
     <title>Cogulator · Scenario Profiler</title>
     <link rel="icon" type="image/png" href="./scenario-assets/favicon-DyqKrg7h.png">
-    <script type="module" crossorigin src="./scenario-assets/index-nlsVmal_.js"></script>
+    <script type="module" crossorigin src="./scenario-assets/index-BY9Szvxi.js"></script>
     <link rel="stylesheet" crossorigin href="./scenario-assets/index-DR_QX8mX.css">
   </head>
   <body>
@@ -39,7 +39,7 @@
                 </div>
               </div>
               <p class="setup-note"><span aria-hidden="true">↳</span> Your profile opens automatically when both are loaded.</p>
-              <details class="format-guide"><summary>What goes in a scenario file?</summary><p>Use these five CSV columns. Give each task a unique name and match the .goms filenames you load. Times are non-negative seconds (decimals allowed).</p><code>unique_task_name,goms_file,start_type,reference_task,start_time_in_seconds<br>alert,Alert.goms,starting_at,,15<br>reply,Reply.goms,starting_after,alert finishes,2<br>monitor,Monitor.goms,starting_after,alert starts,0</code><p><code>starting_at</code> sets a scenario offset; leave the reference blank. For <code>starting_after</code>, enter a task name followed by <code>starts</code> or <code>finishes</code>, exactly as in a Task. The seconds add a delay after that event. Thread names are assigned automatically.</p></details>
+              <details class="format-guide"><summary>What goes in a scenario file?</summary><p>Use these four CSV columns and match the .goms filenames you load. Task names combine the filename without .goms and the task’s position in the list, starting at 1 (for example, Leader_Line_Offset_1). Times are non-negative seconds (decimals allowed).</p><code>goms_file,start_type,reference_task,start_time_in_seconds<br>Alert.goms,starting_at,,15<br>Reply.goms,starting_after,Alert_1 finishes,2<br>Monitor.goms,starting_after,Alert_1 starts,0</code><p><code>starting_at</code> sets a scenario offset; leave the reference blank. For <code>starting_after</code>, enter a generated task name followed by <code>starts</code> or <code>finishes</code>, exactly as in a Task. The seconds add a delay after that event. Thread names are assigned automatically.</p></details>
             </div>
           </div>
           <div id="results-view" class="hidden">

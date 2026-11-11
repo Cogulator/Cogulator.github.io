@@ -1,4 +1,4 @@
-export const SCENARIO_COLUMNS = ['unique_task_name','goms_file','start_type','reference_task','start_time_in_seconds'];
+export const SCENARIO_COLUMNS = ['goms_file','start_type','reference_task','start_time_in_seconds'];
 
 function readRows(text) {
   const input = String(text).replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
@@ -31,19 +31,16 @@ export function parseScenarioCsv(text) {
   const rows = readRows(text);
   const headers = rows.shift()?.map(value => value.trim()) || [];
   if (headers.length !== SCENARIO_COLUMNS.length || new Set(headers).size !== headers.length || SCENARIO_COLUMNS.some(name => !headers.includes(name))) {
-    throw new Error(`Scenario CSV requires these five columns: ${SCENARIO_COLUMNS.join(',')}`);
+    throw new Error(`Scenario CSV requires these four columns: ${SCENARIO_COLUMNS.join(',')}`);
   }
   if (!rows.length) throw new Error('The scenario CSV needs at least one task row.');
-  const ids = new Set();
   const tasks = rows.map((row, index) => {
     const fail = message => { throw new Error(`Scenario row ${index + 2}: ${message}`); };
-    if (row.length !== headers.length) fail('expected five fields.');
+    if (row.length !== headers.length) fail('expected four fields.');
     const item = Object.fromEntries(headers.map((header, i) => [header, row[i].trim()]));
-    const id = item.unique_task_name, model = item.goms_file;
-    if (!id) fail('unique_task_name cannot be blank.');
-    if (ids.has(id)) fail(`unique_task_name “${id}” is duplicated.`);
-    ids.add(id);
+    const model = item.goms_file;
     if (!model || !/\.goms$/i.test(model)) fail('goms_file must name a .goms file.');
+    const id = `${model.replace(/\.goms$/i, '')}_${index + 1}`;
     const startType = item.start_type;
     if (!['starting_at','starting_after'].includes(startType)) fail('start_type must be starting_at or starting_after.');
     const startValue = item.start_time_in_seconds;
@@ -77,6 +74,6 @@ export function parseScenarioCsv(text) {
 }
 
 export function serializeScenarioCsv(tasks) {
-  const rows = tasks.map(task => [task.id, task.model, task.startType, task.referenceTask ? `${task.referenceTask} ${task.referenceEvent}` : '', task.startValue]);
+  const rows = tasks.map(task => [task.model, task.startType, task.referenceTask ? `${task.referenceTask} ${task.referenceEvent}` : '', task.startValue]);
   return [SCENARIO_COLUMNS.join(','), ...rows.map(row => row.map(value => '"' + String(value).replaceAll('"','""') + '"').join(','))].join('\r\n') + '\r\n';
 }
